@@ -1,0 +1,3 @@
+[submodule "RhythmCore"]
+	path = RhythmCore
+	url = https://github.com/Dumble009/RhythmCore
