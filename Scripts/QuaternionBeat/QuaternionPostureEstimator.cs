@@ -10,12 +10,12 @@ public class QuaternionPostureEstimator
     /// <summary>
     /// スマホにおける上向きのベクトル。キャリブレーションではこのベクトルを求めることを目的とする。
     /// </summary>
-    static Vector3 upwardOfCell;
+    static Vector3 upwardOfCell = Vector3.up;
 
     /// <summary>
     /// スマホを垂直に立てた時にスマホの上側が来るベクトル。
     /// </summary>
-    static Vector3 verticalUp;
+    static Vector3 verticalUp = Vector3.forward;
 
     /// <summary>
     /// Unity空間上で各軸にスマホからのQuaternionを掛け合わせた結果得られるベクトル

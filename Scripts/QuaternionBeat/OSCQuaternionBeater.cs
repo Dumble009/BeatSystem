@@ -16,13 +16,21 @@ public class OSCQuaternionBeater : MonoBehaviour
     /// </summary>
     [SerializeField] float downerThreshold = -0.4f;
 
+    QuaternionPostureEstimator postureEstimator;
+
     /// <summary>
     /// 今持ち上げるべきかどうか
     /// </summary>
     bool isRising = true;
 
+    private void Awake()
+    {
+        postureEstimator = new QuaternionPostureEstimator();
+    }
+
     public void Receive(Vector4 rot)
     {
+
         if (isRising)
         {
             if (IsRiftedUp(rot))
@@ -42,7 +50,7 @@ public class OSCQuaternionBeater : MonoBehaviour
             }
         }
 
-        Debug.Log(rot + ":" + rot.magnitude);
+        Debug.Log(postureEstimator.ErrorBetweenUpward(rot));
     }
 
     /// <summary>
@@ -52,7 +60,7 @@ public class OSCQuaternionBeater : MonoBehaviour
     /// <returns>ダンベルを持ち上げたかどうか</returns>
     private bool IsRiftedUp(Vector4 rot)
     {
-        return rot.x > upperThreshold;
+        return postureEstimator.ErrorBetweenUpward(rot) < upperThreshold;
     }
 
     /// <summary>
@@ -62,6 +70,6 @@ public class OSCQuaternionBeater : MonoBehaviour
     /// <returns>ダンベルを下げたかどうか</returns>
     private bool IsRiftedDown(Vector4 rot)
     {
-        return rot.x < downerThreshold;
+        return postureEstimator.ErrorBetweenUpward(rot) > downerThreshold;
     }
 }

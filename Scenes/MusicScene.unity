@@ -375,8 +375,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   holder: {fileID: 113330943}
-  upperThreshold: 0.7
-  downerThreshold: -0.4
+  upperThreshold: 50
+  downerThreshold: 150
 --- !u!4 &386856200
 Transform:
   m_ObjectHideFlags: 0

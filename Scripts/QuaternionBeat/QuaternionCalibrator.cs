@@ -17,13 +17,33 @@ public class QuaternionCalibrator : MonoBehaviour
     /// キャリブレーション完了後に読み込まれるシーンの名前
     /// </summary>
     [SerializeField] string loadSceneName;
+
+    /// <summary>
+    /// 姿勢推定を行うオブジェクト。キャリブレーション対象。
+    /// </summary>
+    QuaternionPostureEstimator postureEstimator;
+
+    /// <summary>
+    /// 現在のスマホの姿勢
+    /// </summary>
+    Vector4 currentCellRotation;
     IEnumerator Start()
     {
+        postureEstimator = new QuaternionPostureEstimator();
+
+        postureEstimator.InitCalibration();
+
         ChangeDescription("Stand the Smartphone");
         yield return WaitForKey(KeyCode.Return);
 
+        postureEstimator.StepCalibration(currentCellRotation);
+
         ChangeDescription("Rotate 90 degrees around a vertical axis.");
         yield return WaitForKey(KeyCode.Return);
+
+        postureEstimator.StepCalibration(currentCellRotation);
+
+        postureEstimator.FinishCalibration();
 
         ChangeDescription("Calibration Completed!");
         SceneManager.LoadScene(loadSceneName);
@@ -47,5 +67,14 @@ public class QuaternionCalibrator : MonoBehaviour
     void ChangeDescription(string msg)
     {
         description.text = msg;
+    }
+
+    /// <summary>
+    /// OSC通信のハンドラ
+    /// </summary>
+    /// <param name="rot">スマホのQuaternion</param>
+    public void Receive(Vector4 rot)
+    {
+        currentCellRotation = rot;
     }
 }
