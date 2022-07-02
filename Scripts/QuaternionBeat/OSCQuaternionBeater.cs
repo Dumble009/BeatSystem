@@ -21,22 +21,28 @@ public class OSCQuaternionBeater : MonoBehaviour
     /// </summary>
     bool isRising = true;
 
-    public void Receive(Vector4 rot){
-        if(isRising){
-            if(IsRiftedUp(rot)){
+    public void Receive(Vector4 rot)
+    {
+        if (isRising)
+        {
+            if (IsRiftedUp(rot))
+            {
                 holder.Beat();
                 isRising = false;
                 Debug.LogWarning("rifted up");
             }
-        }else{
-            if(IsRiftedDown(rot)){
+        }
+        else
+        {
+            if (IsRiftedDown(rot))
+            {
                 holder.Beat();
                 isRising = true;
                 Debug.LogWarning("rifted down");
             }
         }
 
-        Debug.Log(rot);
+        Debug.Log(rot + ":" + rot.magnitude);
     }
 
     /// <summary>
@@ -44,7 +50,8 @@ public class OSCQuaternionBeater : MonoBehaviour
     /// </summary>
     /// <param name="rot">OSCから降ってきた姿勢データ</param>
     /// <returns>ダンベルを持ち上げたかどうか</returns>
-    private bool IsRiftedUp(Vector4 rot){
+    private bool IsRiftedUp(Vector4 rot)
+    {
         return rot.x > upperThreshold;
     }
 
@@ -53,7 +60,8 @@ public class OSCQuaternionBeater : MonoBehaviour
     /// </summary>
     /// <param name="rot">OSCから降ってきた姿勢データ</param>
     /// <returns>ダンベルを下げたかどうか</returns>
-    private bool IsRiftedDown(Vector4 rot){
+    private bool IsRiftedDown(Vector4 rot)
+    {
         return rot.x < downerThreshold;
     }
 }
