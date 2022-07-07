@@ -4,6 +4,11 @@
 /// </summary>
 public class MockMusicPase : MusicPase
 {
+    private void Awake()
+    {
+        // 空関数で初期化してnullを防ぐ
+        onTempoChange = (x) => { };
+    }
     /// <summary>
     /// argを引数としてonTempoChangeを呼び出す
     /// </summary>
