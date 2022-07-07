@@ -1,5 +1,11 @@
 using System.Collections;
 using UnityEngine;
+
+/// <summary>
+/// テンポが変化した時に発行するイベント
+/// </summary>
+/// <param name="normalizedTempo">正規化された現在のテンポ。本来の曲のテンポと一致している場合は1。倍速の場合は2</param>
+delegate void TempoChangeHandler(float normalizedTempo);
 /// <summary>
 /// テンポに応じてAudioSourceの再生速度を変える
 /// </summary>
@@ -29,6 +35,17 @@ public class MusicPase : MonoBehaviour
     /// </summary>
     float currentTempo = 0.0f;
 
+    /// <summary>
+    /// テンポ変化時に発行するイベント
+    /// </summary>
+    TempoChangeHandler onTempoChange;
+
+    private void Awake()
+    {
+        // イベントを空関数で初期化しておき、nullを防ぐ
+        onTempoChange = (x) => { };
+    }
+
     private void Start()
     {
         holder.RegisterOnBeat(OnBeat);
@@ -41,6 +58,9 @@ public class MusicPase : MonoBehaviour
         {
             currentTargetTempo = ORIGINAL_TEMPO;
         }
+
+        // WARN:今は簡単にするためにこのタイミングでイベントを発行するが、本来はTempoChangeで発行する。
+        onTempoChange(currentTargetTempo);
     }
 
     IEnumerator TempoChange()
