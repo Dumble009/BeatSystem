@@ -59,6 +59,14 @@ public class NeedleControllerTest
         Assert.That(Utils.AreFloatsEqual(1.0f, needle.CurrentValue, allowedRelativeError));
 
         yield return null;
+
+        // 曲が倍速以上のテンポで流れても針は振り切れたまま
+
+        musicPase.CallOnTempoChange(3.0f);
+
+        Assert.That(Utils.AreFloatsEqual(1.0f, needle.CurrentValue, allowedRelativeError));
+
+        yield return null;
     }
 
     private MethodInfo GetMethodInfo(MonoBehaviour m, string name)
