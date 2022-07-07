@@ -6,7 +6,7 @@
         "UnityEditor.TestRunner",
         "QuaternionBeat",
         "MusicControll",
-        "ArduinoController"
+        "ArduinoControll"
     ],
     "includePlatforms": [
         "Editor"
