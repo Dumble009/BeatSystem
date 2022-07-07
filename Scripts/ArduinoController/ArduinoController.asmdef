@@ -1,0 +1,16 @@
+{
+    "name": "ArduinoController",
+    "rootNamespace": "",
+    "references": [
+        "GUID:9839ed7800cb1c74ba5f9e29b3b24611"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
