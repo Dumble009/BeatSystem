@@ -29,19 +29,22 @@ public class MusicPase : MonoBehaviour
     /// </summary>
     float currentTempo = 0.0f;
 
-    private void Start() {
+    private void Start()
+    {
         holder.RegisterOnBeat(OnBeat);
     }
 
-    private void OnBeat(BeatPacket packet){
+    private void OnBeat(BeatPacket packet)
+    {
         currentTargetTempo = packet.Tempo;
-        if(Mathf.Abs(currentTargetTempo - ORIGINAL_TEMPO) <= threshold){
+        if (Mathf.Abs(currentTargetTempo - ORIGINAL_TEMPO) <= threshold)
+        {
             currentTargetTempo = ORIGINAL_TEMPO;
         }
     }
 
-    IEnumerator TempoChange(){
-        
+    IEnumerator TempoChange()
+    {
         yield return null;
     }
 }
