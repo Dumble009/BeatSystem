@@ -18,23 +18,26 @@ public class NeedleControllerTest
         // モックのMusicPaseを作成
         var musicPaseGO = new GameObject();
         var musicPase = musicPaseGO.AddComponent<MockMusicPase>();
-        CallAwake(musicPase);
-        CallStart(musicPase);
+        TestUtility.CallAwake(musicPase);
 
         // モックの針を作成
         var needleGO = new GameObject("Needle");
         var needle = needleGO.AddComponent<MockNeedle>();
-        CallAwake(needle);
-        CallStart(needle);
+        TestUtility.CallAwake(needle);
 
         // NeedleControllerのGameObjectを作成し、コンポーネントを付与する前に針の親GOにする
         var needleControllerGO = new GameObject("NeedleController");
         needleGO.transform.parent = needleControllerGO.transform;
 
         var needleController = needleControllerGO.AddComponent<NeedleController>();
-        CallAwake(needleController);
-        CallStart(needleController);
+        TestUtility.CallAwake(needleController);
 
+        // Start関数をまとめて呼び出す。
+        // Awake->Startの呼び出し順は全てのGameObejctのAwakeが呼び出されてからStartが呼び出されるので、
+        // Awakeを呼び出し終わった後にまとめてStartを実行する必要がある
+        TestUtility.CallStart(musicPase);
+        TestUtility.CallStart(needle);
+        TestUtility.CallStart(needleController);
         yield return null;
 
         // 曲が本来のテンポで流れている時は、針は真ん中を刺す
@@ -67,28 +70,5 @@ public class NeedleControllerTest
         Assert.That(Utils.AreFloatsEqual(1.0f, needle.CurrentValue, allowedRelativeError));
 
         yield return null;
-    }
-
-    private MethodInfo GetMethodInfo(MonoBehaviour m, string name)
-    {
-        return m.GetType().GetMethod(name, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-    }
-
-    private void CallAwake(MonoBehaviour m)
-    {
-        var mi = GetMethodInfo(m, "Awake");
-        if (mi != null)
-        {
-            mi.Invoke(m, null);
-        }
-    }
-
-    private void CallStart(MonoBehaviour m)
-    {
-        var mi = GetMethodInfo(m, "Start");
-        if (mi != null)
-        {
-            mi.Invoke(m, null);
-        }
     }
 }
