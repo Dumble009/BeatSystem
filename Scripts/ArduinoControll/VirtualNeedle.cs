@@ -12,14 +12,14 @@ public class VirtualNeedle : MonoBehaviour, INeedle
     /// <summary>
     /// 針が左端を刺す時の角度
     /// </summary>
-    [SerializeField] float minDegree;
+    [SerializeField] float leftDegree;
     /// <summary>
     /// 針が右端を刺す時の角度
     /// </summary>
-    [SerializeField] float maxDegree;
+    [SerializeField] float rightDegree;
     public void SetValue(float v)
     {
-        float degree = minDegree + v * (maxDegree - minDegree); // 0~1の与えられるvを具体的な針の角度に変換する
+        float degree = leftDegree + v * (rightDegree - leftDegree); // 0~1の与えられるvを具体的な針の角度に変換する
 
         var euler = needleCenter.eulerAngles;
         euler.z = degree;
