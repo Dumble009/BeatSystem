@@ -42,4 +42,21 @@ public class TestUtility
             mi.Invoke(m, null);
         }
     }
+
+    /// <summary>
+    /// T型のメンバ変数にアクセスし、値を返す
+    /// </summary>
+    /// <param name="o">メンバを保持しているオブジェクト</param>
+    /// <param name="memberName">変数名</param>
+    /// <returns>変数memberNameの値</returns>
+    static public T GetMemberValue<T>(Object o, string memberName)
+    {
+        var f = o.GetType().GetField(memberName, BindingFlags.NonPublic |
+                                                BindingFlags.Instance |
+                                                BindingFlags.GetField |
+                                                BindingFlags.FlattenHierarchy |
+                                                BindingFlags.SetField);
+
+        return (T)f.GetValue(o);
+    }
 }
