@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -11,7 +12,6 @@ public delegate void TempoChangeHandler(float normalizedTempo);
 /// </summary>
 public class MusicPase : MonoBehaviour
 {
-    [SerializeField] AudioSource audioSource;
     [SerializeField] BeatMakerHolder holder;
     /// <summary>
     /// テンポのずれがこの閾値以下であればORIGINAL_TEMPOとして扱う
@@ -23,12 +23,22 @@ public class MusicPase : MonoBehaviour
     /// </summary>
     [SerializeField] float tempoChangeSpeed = 10;
 
+    /// <summary>
+    /// 移動平均を計算するために使用するサンプル数
+    /// </summary>
+    [SerializeField] int windowSize = 3;
+
     const float ORIGINAL_TEMPO = 0.56f;
 
     /// <summary>
-    /// 現在の目標テンポ
+    /// 移動平均を計算するために使用する過去の拍動間隔のキュー
     /// </summary>
-    float currentTargetTempo = 0.0f;
+    Queue<float> tempoQ;
+
+    /// <summary>
+    /// 最後にBeatMakerから送られてきたテンポ
+    /// </summary>
+    float lastBeatedTempo = 0.0f;
 
     /// <summary>
     /// 現在の音楽のテンポ
@@ -40,8 +50,12 @@ public class MusicPase : MonoBehaviour
     /// </summary>
     protected TempoChangeHandler onTempoChange;
 
+    float lastBeatTime = 0.0f;
+
     private void Awake()
     {
+        tempoQ = new Queue<float>();
+
         // イベントを空関数で初期化しておき、nullを防ぐ
         onTempoChange = (x) => { };
     }
@@ -58,8 +72,25 @@ public class MusicPase : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        float currentTargetTempo = CalculateTargetTempo(lastBeatedTempo);
+        currentTempo = CalcCurrentTempo(currentTargetTempo);
+        onTempoChange(ORIGINAL_TEMPO / currentTempo);
+    }
+
     private void OnBeat(BeatPacket packet)
     {
+        lastBeatTime = Time.realtimeSinceStartup;
+        lastBeatedTempo = packet.Tempo;
+
+        tempoQ.Enqueue(packet.Tempo);
+        if (tempoQ.Count > windowSize)
+        {
+            tempoQ.Dequeue();
+        }
+        /*lastBeatTime = Time.realtimeSinceStartup;
+
         currentTargetTempo = packet.Tempo;
         if (Mathf.Abs(currentTargetTempo - ORIGINAL_TEMPO) <= threshold)
         {
@@ -67,12 +98,80 @@ public class MusicPase : MonoBehaviour
         }
 
         // WARN:今は簡単にするためにこのタイミングでイベントを発行するが、本来はTempoChangeで発行する。
-        onTempoChange(ORIGINAL_TEMPO / currentTargetTempo);
+        onTempoChange(ORIGINAL_TEMPO / currentTargetTempo);*/
     }
 
-    private IEnumerator TempoChange()
+    float CalcCurrentTempo(float targetTempo)
     {
-        yield return null;
+        if (Mathf.Abs(currentTempo - targetTempo) <= threshold)
+        {
+            return targetTempo;
+        }
+        else
+        {
+            var temp = currentTempo;
+            var delta = tempoChangeSpeed * Time.deltaTime;
+            temp += (currentTempo < targetTempo) ? delta : -delta;
+
+            return temp;
+        }
+    }
+
+    float CalculateTargetTempo(float currentTempo)
+    {
+        if (tempoQ.Count == 0)
+        {
+            return ORIGINAL_TEMPO;
+        }
+        else
+        {
+            float average = 0;
+            foreach (var tempo in tempoQ)
+            {
+                average += tempo;
+            }
+
+            if (Time.realtimeSinceStartup - lastBeatTime >= currentTempo + threshold)
+            {
+                average += Time.realtimeSinceStartup - lastBeatTime;
+                average /= tempoQ.Count + 1;
+            }
+            else
+            {
+                average /= tempoQ.Count;
+            }
+
+
+
+            return average;
+        }
+    }
+
+    /// <summary>
+    /// 現在のテンポを変化させるコルーチン
+    /// </summary>
+    private IEnumerator TempoChange(float currentTempo)
+    {
+        while (true)
+        {
+            // 最初の拍動があるまではオリジナルテンポを出し続ける
+            if (tempoQ.Count == 0)
+            {
+                currentTempo = ORIGINAL_TEMPO;
+            }
+            else
+            {
+                float average = 0;
+                foreach (var tempo in tempoQ)
+                {
+                    average += tempo;
+                }
+
+                average /= tempoQ.Count;
+
+            }
+            yield return null;
+        }
     }
 
     /// <summary>
