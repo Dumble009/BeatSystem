@@ -3,7 +3,7 @@ using UnityEngine;
 /// <summary>
 /// MusicPaseが発行するテンポに合わせてAudioSourceのpitchを調節するクラス
 /// </summary>
-public class AudioSourceControll : MonoBehaviour
+public class AudioSourceController : MonoBehaviour
 {
     /// <summary>
     /// 操作対象のAudioSource
