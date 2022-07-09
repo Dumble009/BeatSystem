@@ -74,9 +74,10 @@ public class MusicPase : MonoBehaviour
 
     private void Update()
     {
-        float currentTargetTempo = CalculateTargetTempo(lastBeatedTempo);
-        currentTempo = CalcCurrentTempo(currentTargetTempo);
-        onTempoChange(ORIGINAL_TEMPO / currentTempo);
+        float currentTargetTempo = NormalizeRealTimeTempo(CalculateTargetTempo(lastBeatedTempo));
+        Debug.Log(currentTargetTempo);
+        currentTempo = CalculateCurrentTempo(currentTargetTempo);
+        onTempoChange(currentTempo);
     }
 
     private void OnBeat(BeatPacket packet)
@@ -89,34 +90,34 @@ public class MusicPase : MonoBehaviour
         {
             tempoQ.Dequeue();
         }
-        /*lastBeatTime = Time.realtimeSinceStartup;
-
-        currentTargetTempo = packet.Tempo;
-        if (Mathf.Abs(currentTargetTempo - ORIGINAL_TEMPO) <= threshold)
-        {
-            currentTargetTempo = ORIGINAL_TEMPO;
-        }
-
-        // WARN:今は簡単にするためにこのタイミングでイベントを発行するが、本来はTempoChangeで発行する。
-        onTempoChange(ORIGINAL_TEMPO / currentTargetTempo);*/
     }
 
-    float CalcCurrentTempo(float targetTempo)
+    /// <summary>
+    /// 目標テンポを元に現在のテンポを返す。取り扱うテンポは全て正規化されたもの
+    /// </summary>
+    /// <param name="normalizedTargetTempo">正規化された目標テンポ</param>
+    /// <returns>正規化された現在のテンポ</returns>
+    float CalculateCurrentTempo(float normalizedTargetTempo)
     {
-        if (Mathf.Abs(currentTempo - targetTempo) <= threshold)
+        if (Mathf.Abs(currentTempo - normalizedTargetTempo) <= threshold)
         {
-            return targetTempo;
+            return normalizedTargetTempo;
         }
         else
         {
             var temp = currentTempo;
             var delta = tempoChangeSpeed * Time.deltaTime;
-            temp += (currentTempo < targetTempo) ? delta : -delta;
+            temp += (currentTempo < normalizedTargetTempo) ? delta : -delta;
 
             return temp;
         }
     }
 
+    /// <summary>
+    /// 目標テンポを実時間で計算して返す
+    /// </summary>
+    /// <param name="currentTempo">最後に打たれたビートのテンポ</param>
+    /// <returns>目標テンポ。単位は次の拍までの秒数</returns>
     float CalculateTargetTempo(float currentTempo)
     {
         if (tempoQ.Count == 0)
@@ -131,9 +132,11 @@ public class MusicPase : MonoBehaviour
                 average += tempo;
             }
 
-            if (Time.realtimeSinceStartup - lastBeatTime >= currentTempo + threshold)
+            float currentTimeFromLastBeat = Time.realtimeSinceStartup - lastBeatTime;
+
+            if (currentTimeFromLastBeat >= currentTempo + threshold)
             {
-                average += Time.realtimeSinceStartup - lastBeatTime;
+                average += currentTimeFromLastBeat;
                 average /= tempoQ.Count + 1;
             }
             else
@@ -141,9 +144,40 @@ public class MusicPase : MonoBehaviour
                 average /= tempoQ.Count;
             }
 
-
+            if (Mathf.Approximately(RoundByThreshold(currentTempo, ORIGINAL_TEMPO), ORIGINAL_TEMPO))
+            {
+                average = RoundByThreshold(average, ORIGINAL_TEMPO);
+            }
 
             return average;
+        }
+    }
+
+    /// <summary>
+    /// 拍動間の秒数で表されるテンポをオリジナルのテンポからの割合で表現されるテンポへと変換する
+    /// </summary>
+    /// <param name="realTimeTempo">変換対象のテンポ。拍動間の秒数</param>
+    /// <returns>realTimeTempoを正規化したテンポ</returns>
+    private float NormalizeRealTimeTempo(float realTimeTempo)
+    {
+        return ORIGINAL_TEMPO / realTimeTempo;
+    }
+
+    /// <summary>
+    /// floatの値valとtargetの差がthreshold以下であればtargetを、そうでなければvalを返す。
+    /// </summary>
+    /// <param name="val">丸める対象の値</param>
+    /// <param name="target">丸めの基準となる値</param>
+    /// <returns>必要に応じて丸められたval</returns>
+    private float RoundByThreshold(float val, float target)
+    {
+        if (Mathf.Abs(target - val) <= threshold)
+        {
+            return target;
+        }
+        else
+        {
+            return val;
         }
     }
 
