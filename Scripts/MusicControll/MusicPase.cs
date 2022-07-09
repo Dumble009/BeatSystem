@@ -67,7 +67,7 @@ public class MusicPase : MonoBehaviour
         }
 
         // WARN:今は簡単にするためにこのタイミングでイベントを発行するが、本来はTempoChangeで発行する。
-        onTempoChange(currentTargetTempo);
+        onTempoChange(ORIGINAL_TEMPO / currentTargetTempo);
     }
 
     private IEnumerator TempoChange()
