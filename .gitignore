@@ -67,3 +67,6 @@ crashlytics-build.properties
 *.drawio.bkp
 *.drawio.bkp.meta
 Designs/*.txt.meta
+
+ExternalAssets/
+ExternalAssets.meta
