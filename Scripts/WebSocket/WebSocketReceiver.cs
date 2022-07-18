@@ -2,6 +2,7 @@ using System;
 using System.Net.WebSockets;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// WebSocketの通信を行うエージェントクラス。
@@ -13,6 +14,11 @@ public class WebSocketReceiver : MonoBehaviour
     /// WebSocketサーバのURL
     /// </summary>
     [SerializeField] string url;
+
+    /// <summary>
+    /// 受信文字列を出力するためのText
+    /// </summary>
+    [SerializeField] Text debugText;
 
     /// <summary>
     /// WebSocket通信の主体となるオブジェクト
@@ -41,7 +47,16 @@ public class WebSocketReceiver : MonoBehaviour
             var result = await ws.ReceiveAsync(segment, System.Threading.CancellationToken.None);
 
             var receiveMsg = System.Text.Encoding.ASCII.GetString(buffer);
-            Debug.Log(receiveMsg);
+
+            if (debugText != null)
+            {
+                debugText.text = receiveMsg;
+            }
         }
+    }
+
+    private void OnDestroy()
+    {
+        ws.CloseAsync(WebSocketCloseStatus.NormalClosure, "Close OnDestroy", System.Threading.CancellationToken.None);
     }
 }
