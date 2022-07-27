@@ -2,7 +2,8 @@
     "name": "ArduinoControll",
     "rootNamespace": "",
     "references": [
-        "GUID:9839ed7800cb1c74ba5f9e29b3b24611"
+        "GUID:9839ed7800cb1c74ba5f9e29b3b24611",
+        "GUID:5e8c4b75498319747876cd3490be2ee1"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
