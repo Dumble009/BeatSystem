@@ -1,6 +1,9 @@
 using UnityEngine;
 
-public class MessageSender : MonoBehaviour
+/// <summary>
+/// NeedleControllerから渡された値をSerialPortUtilityProを通してArduinoに送る
+/// </summary>
+public class SerialPortAgent : MonoBehaviour, INeedle
 {
     SerialPortUtility.SerialPortUtilityPro serialPort;
 
@@ -9,7 +12,7 @@ public class MessageSender : MonoBehaviour
         serialPort = GetComponent<SerialPortUtility.SerialPortUtilityPro>();
     }
 
-    public void SendToArduino(float f)
+    public void SetValue(float f)
     {
         if (f < 0)
         {
@@ -18,11 +21,12 @@ public class MessageSender : MonoBehaviour
         {
             f = 1;
         }
-        int val = (int)f * 180;
+        int val = (int)(f * 180);
         if (serialPort != null)
         {
             if (serialPort.IsOpened())
             {
+                Debug.Log($"send, {val} : {f}");
                 serialPort.WriteLF(val.ToString());
             }
         }
