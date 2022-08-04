@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -5,11 +6,29 @@ using UnityEngine;
 /// </summary>
 public class SerialPortAgent : MonoBehaviour, INeedle
 {
+    /// <summary>
+    /// 最後にArduinoに情報を送った時間
+    /// </summary>
+    float lastSentTime = 0.0f;
     SerialPortUtility.SerialPortUtilityPro serialPort;
 
     private void Awake()
     {
+        lastSentTime = Time.realtimeSinceStartup;
         serialPort = GetComponent<SerialPortUtility.SerialPortUtilityPro>();
+    }
+
+    private IEnumerator Start() {
+        yield return new WaitUntil(() => serialPort.IsOpened());
+        float val = 0.0f;
+        while (true)
+        {
+            yield return new WaitForSeconds(1f);
+            val += 10.0f;
+            //yield return new WaitForSeconds(1.0f);
+            Debug.Log($"start! : {serialPort.IsOpened()}");
+            serialPort.WriteLF(val.ToString());
+        }
     }
 
     public void SetValue(float f)
@@ -29,6 +48,11 @@ public class SerialPortAgent : MonoBehaviour, INeedle
                 Debug.Log($"send, {val} : {f}");
                 serialPort.WriteLF(val.ToString());
             }
+            lastSentTime = Time.realtimeSinceStartup;
         }
+    }
+
+    private void OnDestroy() {
+        serialPort.Close();
     }
 }

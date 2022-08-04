@@ -75,7 +75,7 @@ public class MusicPase : MonoBehaviour
     private void Update()
     {
         float currentTargetTempo = NormalizeRealTimeTempo(CalculateTargetTempo(lastBeatedTempo));
-        Debug.Log(currentTargetTempo);
+        //Debug.Log(currentTargetTempo);
         currentTempo = CalculateCurrentTempo(currentTargetTempo);
         onTempoChange(currentTempo);
     }

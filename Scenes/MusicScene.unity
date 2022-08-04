@@ -139,7 +139,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &90485946
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,7 +147,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 90485945}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 51f8f979447c54247bcba0d5441e6081, type: 3}
   m_Name: 
@@ -361,7 +361,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &386856199
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -658,6 +658,11 @@ MonoBehaviour:
   beatCountText: {fileID: 515035545}
   tempoText: {fileID: 322296649}
   beatMakerHolder: {fileID: 113330943}
+--- !u!4 &693901406 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4752928955518776550, guid: 9338be6b16534c144a6fcbf3074116c9, type: 3}
+  m_PrefabInstance: {fileID: 1279320150}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &704804720 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7267877662481025409, guid: 796b9307f9d51704cab71018aedd476b, type: 3}
@@ -899,12 +904,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7267877662481025409, guid: 796b9307f9d51704cab71018aedd476b, type: 3}
+      propertyPath: url
+      value: wss://196f-133-1-254-90.ap.ngrok.io
+      objectReference: {fileID: 0}
+    - target: {fileID: 7267877662481025409, guid: 796b9307f9d51704cab71018aedd476b, type: 3}
       propertyPath: debugText
       value: 
       objectReference: {fileID: 1943205742}
     - target: {fileID: 7267877662481025414, guid: 796b9307f9d51704cab71018aedd476b, type: 3}
       propertyPath: m_Name
       value: WebSocketReceiver
+      objectReference: {fileID: 0}
+    - target: {fileID: 7267877662481025414, guid: 796b9307f9d51704cab71018aedd476b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 796b9307f9d51704cab71018aedd476b, type: 3}
@@ -956,89 +969,63 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1374796850
-GameObject:
+--- !u!1001 &1279320150
+PrefabInstance:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1374796852}
-  - component: {fileID: 1374796851}
-  m_Layer: 0
-  m_Name: ArduinoController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1374796851
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1374796850}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c53a53d4c59daf742b7221e854c30bb9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IsAutoOpen: 1
-  OpenMethod: 1
-  ReadProtocol: 2
-  BaudRate: 9600
-  Parity: 0
-  StopBit: 0
-  DataBit: 8
-  RecvDiscardNull: 0
-  AutoRTSCTSHandshake: 0
-  StartEnableDTR: 1
-  DtrEnabled: 0
-  RtsEnabled: 0
-  Skip: 0
-  BluetoothSSPNoServerMode: 0
-  FeedCode: <CR><LF>
-  SplitCode: ','
-  FixedFeedCount: 10
-  UpdateProcessing: 0
-  ReadCompleteEventObject:
-    m_PersistentCalls:
-      m_Calls: []
-  ReadCompleteEventObjectType: 
-  ReadClassMembersObject: {fileID: 0}
-  SystemEventObject:
-    m_PersistentCalls:
-      m_Calls: []
-  ExternalConfigPath: 1
-  ExternalConfigFileName: serial_config.txt
-  VendorID_string: 2341
-  ProductID_string: 0010
-  SerialNumber_search_string: 64935343633351D0E181
-  EnableTrans: 1
-  DebugConsoleMonitor: 0
-  ExternalConfig: 0
-  ExpandConfig: 1
-  ExpandSPMonitor: 0
-  ExpandEventConfig: 0
-  LicenseEmail: 
-  LicenseCode: 
---- !u!4 &1374796852
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1374796850}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 385.33334, y: 305.2611, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 13
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1594016451}
+    m_Modifications:
+    - target: {fileID: 4752928955518776549, guid: 9338be6b16534c144a6fcbf3074116c9, type: 3}
+      propertyPath: m_Name
+      value: ArduinoController
+      objectReference: {fileID: 0}
+    - target: {fileID: 4752928955518776550, guid: 9338be6b16534c144a6fcbf3074116c9, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4752928955518776550, guid: 9338be6b16534c144a6fcbf3074116c9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4752928955518776550, guid: 9338be6b16534c144a6fcbf3074116c9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4752928955518776550, guid: 9338be6b16534c144a6fcbf3074116c9, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4752928955518776550, guid: 9338be6b16534c144a6fcbf3074116c9, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4752928955518776550, guid: 9338be6b16534c144a6fcbf3074116c9, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4752928955518776550, guid: 9338be6b16534c144a6fcbf3074116c9, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4752928955518776550, guid: 9338be6b16534c144a6fcbf3074116c9, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4752928955518776550, guid: 9338be6b16534c144a6fcbf3074116c9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4752928955518776550, guid: 9338be6b16534c144a6fcbf3074116c9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4752928955518776550, guid: 9338be6b16534c144a6fcbf3074116c9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9338be6b16534c144a6fcbf3074116c9, type: 3}
 --- !u!1 &1424622536
 GameObject:
   m_ObjectHideFlags: 0
@@ -1129,6 +1116,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8856017164315713781}
+  - {fileID: 693901406}
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
