@@ -6,29 +6,21 @@ using UnityEngine;
 /// </summary>
 public class SerialPortAgent : MonoBehaviour, INeedle
 {
-    /// <summary>
-    /// 最後にArduinoに情報を送った時間
-    /// </summary>
-    float lastSentTime = 0.0f;
     SerialPortUtility.SerialPortUtilityPro serialPort;
+
+    /// <summary>
+    /// ArduinoがWriteを受け付けられる状態になっているかどうか
+    /// </summary>
+    bool isOpened = false;
+
+    /// <summary>
+    /// このメッセージがArduinoから送られてきたら送信可能と判定
+    /// </summary>
+    const string OPEN_MESSAGE = "opened";
 
     private void Awake()
     {
-        lastSentTime = Time.realtimeSinceStartup;
         serialPort = GetComponent<SerialPortUtility.SerialPortUtilityPro>();
-    }
-
-    private IEnumerator Start() {
-        yield return new WaitUntil(() => serialPort.IsOpened());
-        float val = 0.0f;
-        while (true)
-        {
-            yield return new WaitForSeconds(1f);
-            val += 10.0f;
-            //yield return new WaitForSeconds(1.0f);
-            Debug.Log($"start! : {serialPort.IsOpened()}");
-            serialPort.WriteLF(val.ToString());
-        }
     }
 
     public void SetValue(float f)
@@ -43,16 +35,30 @@ public class SerialPortAgent : MonoBehaviour, INeedle
         int val = (int)(f * 180);
         if (serialPort != null)
         {
-            if (serialPort.IsOpened())
+            if (isOpened)
             {
                 Debug.Log($"send, {val} : {f}");
                 serialPort.WriteLF(val.ToString());
             }
-            lastSentTime = Time.realtimeSinceStartup;
         }
     }
 
     private void OnDestroy() {
         serialPort.Close();
+    }
+
+    /// <summary>
+    /// Arduinoからシリアル通信でメッセージが送られてきたときに呼び出される。メッセージは文字列だが、obj型に格納されているのでキャストする必要がある。
+    /// </summary>
+    /// <param name="obj">メッセージオブジェクト</param>
+    public void Receive(object obj){
+        string message = obj as string;
+        Debug.Log($"send from arduino {message}");
+
+        // 送られてきたメッセージがArduino起動時のOpenメッセージだった場合は送信可能フラグを立てる
+        if(message == OPEN_MESSAGE){
+            Debug.Log("port opened");
+            isOpened = true;
+        }
     }
 }
