@@ -25,6 +25,8 @@ public class NeedleController : MonoBehaviour
     {
         var musicPase = FindObjectOfType<MusicPase>();
         musicPase.RegisterOnTempoChange(this.OnTempoChange);
+
+        FindObjectOfType<WebSocketReceiver>().RegisterOnReceiveMessage(ReceiveWebSocketMessage);
     }
 
     /// <summary>
@@ -33,7 +35,23 @@ public class NeedleController : MonoBehaviour
     /// <param name="normalizedTempo">現在の音楽のテンポデフォルトのテンポが1、それより倍なら2、半分なら0.5が送られる</param>
     private void OnTempoChange(float normalizedTempo)
     {
-        float needleValue = GetNeedleValue(normalizedTempo);
+        ChangeNeedle(normalizedTempo);
+    }
+
+    /// <summary>
+    /// WebSocketから送られてきたメッセージを受信する関数。WebSocketReceiverから呼び出される。
+    /// </summary>
+    /// <param name="msg">メッセージの文字列。コロン区切りのオイラー角</param>
+    private void ReceiveWebSocketMessage(string msg){
+        
+    }
+
+    /// <summary>
+    /// 針を回転させる。valが0なら針を一番下まで、valが1なら針を一番上まで
+    /// </summary>
+    /// <param name="val">針を制御する値</param>
+    private void ChangeNeedle(float val){
+        float needleValue = GetNeedleValue(val);
         foreach (var n in needle)
         {
             n.SetValue(needleValue);
