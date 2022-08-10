@@ -29,8 +29,13 @@ public class WebSocketReceiver : MonoBehaviour
     /// WebSocket通信の主体となるオブジェクト
     /// </summary>
     ClientWebSocket ws;
-
     OnReceiveMessage onMsg;
+
+    /// <summary>
+    /// すでにコネクションがクローズされた事を示すフラグ。
+    /// クローズした後にオープンしないように使用する
+    /// </summary>
+    bool isAlreadyClosed = false;
 
     private void Awake()
     {
@@ -50,25 +55,30 @@ public class WebSocketReceiver : MonoBehaviour
     {
         ws = new ClientWebSocket();
         var uri = new Uri(url);
-        await ws.ConnectAsync(uri, System.Threading.CancellationToken.None);
-        // 最初にサーバに自分がUnity側のWebSocketクライアントであることを通知する。
-        string msg = "Unity";
-        var bytes = System.Text.Encoding.ASCII.GetBytes(msg);
-        await ws.SendAsync(bytes, WebSocketMessageType.Text, true, System.Threading.CancellationToken.None);
 
-        var buffer = new byte[1024];
-        while (true)
+        if (!isAlreadyClosed)
         {
-            for (int i = 0; i < 1024; i++)
+            await ws.ConnectAsync(uri, System.Threading.CancellationToken.None);
+
+            // 最初にサーバに自分がUnity側のWebSocketクライアントであることを通知する。
+            string msg = "Unity";
+            var bytes = System.Text.Encoding.ASCII.GetBytes(msg);
+            await ws.SendAsync(bytes, WebSocketMessageType.Text, true, System.Threading.CancellationToken.None);
+
+            var buffer = new byte[1024];
+            while (true)
             {
-                buffer[i] = 0;
+                for (int i = 0; i < 1024; i++)
+                {
+                    buffer[i] = 0;
+                }
+                var segment = new ArraySegment<byte>(buffer);
+                var result = await ws.ReceiveAsync(segment, System.Threading.CancellationToken.None);
+
+                var receiveMsg = System.Text.Encoding.ASCII.GetString(buffer);
+
+                onMsg(receiveMsg);
             }
-            var segment = new ArraySegment<byte>(buffer);
-            var result = await ws.ReceiveAsync(segment, System.Threading.CancellationToken.None);
-
-            var receiveMsg = System.Text.Encoding.ASCII.GetString(buffer);
-
-            onMsg(receiveMsg);
         }
     }
 
@@ -84,5 +94,6 @@ public class WebSocketReceiver : MonoBehaviour
     private void OnDestroy()
     {
         ws.CloseAsync(WebSocketCloseStatus.NormalClosure, "Close OnDestroy", System.Threading.CancellationToken.None);
+        isAlreadyClosed = true;
     }
 }

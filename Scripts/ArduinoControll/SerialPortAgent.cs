@@ -18,6 +18,15 @@ public class SerialPortAgent : MonoBehaviour, INeedle
     /// </summary>
     const string OPEN_MESSAGE = "opened";
 
+    /// <summary>
+    /// 針が振れる最低の角度
+    /// </summary>
+    [SerializeField] int minAngle = 30;
+    /// <summary>
+    /// 針が振れる最大の角度
+    /// </summary>
+    [SerializeField] int maxAngle = 150;
+
     private void Awake()
     {
         serialPort = GetComponent<SerialPortUtility.SerialPortUtilityPro>();
@@ -25,6 +34,7 @@ public class SerialPortAgent : MonoBehaviour, INeedle
 
     public void SetValue(float f)
     {
+        f = 1 - f;
         if (f < 0)
         {
             f = 0;
@@ -32,7 +42,7 @@ public class SerialPortAgent : MonoBehaviour, INeedle
         {
             f = 1;
         }
-        int val = (int)(f * 180);
+        int val = minAngle + (int)(f * (maxAngle - minAngle));
         if (serialPort != null)
         {
             if (isOpened)

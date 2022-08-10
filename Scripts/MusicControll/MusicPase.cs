@@ -28,7 +28,7 @@ public class MusicPase : MonoBehaviour
     /// </summary>
     [SerializeField] int windowSize = 3;
 
-    const float ORIGINAL_TEMPO = 0.56f;
+    const float ORIGINAL_TEMPO = 0.6f;
 
     /// <summary>
     /// 移動平均を計算するために使用する過去の拍動間隔のキュー

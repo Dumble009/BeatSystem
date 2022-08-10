@@ -1049,6 +1049,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 880152817}
     m_Modifications:
+    - target: {fileID: 4752928955518776548, guid: 9338be6b16534c144a6fcbf3074116c9, type: 3}
+      propertyPath: maxAngle
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 4752928955518776548, guid: 9338be6b16534c144a6fcbf3074116c9, type: 3}
+      propertyPath: minAngle
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4752928955518776549, guid: 9338be6b16534c144a6fcbf3074116c9, type: 3}
       propertyPath: m_Name
       value: ArduinoController

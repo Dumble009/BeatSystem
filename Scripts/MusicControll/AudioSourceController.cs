@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -6,14 +7,25 @@ using UnityEngine;
 public class AudioSourceController : MonoBehaviour
 {
     /// <summary>
-    /// 操作対象のAudioSource
+    /// BGMを鳴らすAudioSource
     /// </summary>
-    AudioSource targetSource;
+    [SerializeField] AudioSource mainBGMSource;
 
-    private void Awake()
-    {
-        targetSource = GetComponent<AudioSource>();
-    }
+    /// <summary>
+    /// 体験終了後の拍手を鳴らすAudioSource
+    /// </summary>
+    [SerializeField] AudioSource clappingSource;
+
+
+    /// <summary>
+    /// 体験時間。この時間が経過したらフェードアウトが始まる。
+    /// </summary>
+    [SerializeField] float playSeconds = 10.0f;
+
+    /// <summary>
+    /// フェードアウトにかかる時間。この時間立つと音が消失する
+    /// </summary>
+    [SerializeField] float fadeTime = 1.0f;
 
     private void Start()
     {
@@ -26,6 +38,8 @@ public class AudioSourceController : MonoBehaviour
         {
             Debug.LogError("There isn't MusicPase Component.");
         }
+
+        StartCoroutine(FadeCoroutine());
     }
 
     /// <summary>
@@ -34,6 +48,25 @@ public class AudioSourceController : MonoBehaviour
     /// <param name="normalizedTempo">通常のテンポが1、倍速だと2と正規化されたテンポ</param>
     private void OnTempoChange(float normalizedTempo)
     {
-        targetSource.pitch = normalizedTempo;
+        mainBGMSource.pitch = normalizedTempo;
+    }
+
+    /// <summary>
+    /// 体験時間だけ待って、その後フェードを始める。
+    /// </summary>
+    IEnumerator FadeCoroutine(){
+        yield return new WaitForSeconds(playSeconds);
+
+        // ここからフェードが始まる
+        for (float i = 0.0f; i <= fadeTime; i += Time.deltaTime){
+            mainBGMSource.volume = (fadeTime - i) / fadeTime;
+            yield return null;
+        }
+
+        mainBGMSource.volume = 0.0f;
+
+        if(clappingSource != null){
+            clappingSource.Play();
+        }
     }
 }
