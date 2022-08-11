@@ -28,7 +28,10 @@ public class MusicPase : MonoBehaviour
     /// </summary>
     [SerializeField] int windowSize = 3;
 
-    const float ORIGINAL_TEMPO = 0.6f;
+    /// <summary>
+    /// BGMの本来のテンポ。拍と拍の間の秒数を入れる。(BPM 60であれば1, BPM 120であれば0.5)
+    /// </summary>
+    [SerializeField] float originalTempo = 0.6f;
 
     /// <summary>
     /// 移動平均を計算するために使用する過去の拍動間隔のキュー
@@ -122,7 +125,7 @@ public class MusicPase : MonoBehaviour
     {
         if (tempoQ.Count == 0)
         {
-            return ORIGINAL_TEMPO;
+            return originalTempo;
         }
         else
         {
@@ -144,9 +147,9 @@ public class MusicPase : MonoBehaviour
                 average /= tempoQ.Count;
             }
 
-            if (Mathf.Approximately(RoundByThreshold(currentTempo, ORIGINAL_TEMPO), ORIGINAL_TEMPO))
+            if (Mathf.Approximately(RoundByThreshold(currentTempo, originalTempo), originalTempo))
             {
-                average = RoundByThreshold(average, ORIGINAL_TEMPO);
+                average = RoundByThreshold(average, originalTempo);
             }
 
             return average;
@@ -160,7 +163,7 @@ public class MusicPase : MonoBehaviour
     /// <returns>realTimeTempoを正規化したテンポ</returns>
     private float NormalizeRealTimeTempo(float realTimeTempo)
     {
-        return ORIGINAL_TEMPO / realTimeTempo;
+        return originalTempo / realTimeTempo;
     }
 
     /// <summary>
@@ -191,7 +194,7 @@ public class MusicPase : MonoBehaviour
             // 最初の拍動があるまではオリジナルテンポを出し続ける
             if (tempoQ.Count == 0)
             {
-                currentTempo = ORIGINAL_TEMPO;
+                currentTempo = originalTempo;
             }
             else
             {
