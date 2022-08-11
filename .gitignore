@@ -68,5 +68,5 @@ crashlytics-build.properties
 *.drawio.bkp.meta
 Designs/*.txt.meta
 
-ExternalAssets/musics
+ExternalAssets/Resources
 ExternalAssets/SerialPortUtilityPro
