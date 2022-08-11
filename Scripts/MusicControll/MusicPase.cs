@@ -16,21 +16,25 @@ public class MusicPase : MonoBehaviour
     /// <summary>
     /// テンポのずれがこの閾値以下であればORIGINAL_TEMPOとして扱う
     /// </summary>
+    [Header("閾値 大きくすればするほど大きなずれを正常なものとして許容する")]
     [SerializeField] float threshold = 0.1f;
 
     /// <summary>
     /// テンポが1秒間に変化する量
     /// </summary>
+    [Header("テンポが1秒間に変化する量 大きくすればテンポが速く変化するようになる")]
     [SerializeField] float tempoChangeSpeed = 10;
 
     /// <summary>
     /// 移動平均を計算するために使用するサンプル数
     /// </summary>
+    [Header("何回分の移動平均を取るか 最低値は1 小さくすると直近のテンポのずれを素早く反映する")]
     [SerializeField] int windowSize = 3;
 
     /// <summary>
     /// BGMの本来のテンポ。拍と拍の間の秒数を入れる。(BPM 60であれば1, BPM 120であれば0.5)
     /// </summary>
+    [Header("BGM本来のテンポ。拍と拍の間の秒数を入れる。(BPM 120であれば0.5)")]
     [SerializeField] float originalTempo = 0.6f;
 
     /// <summary>

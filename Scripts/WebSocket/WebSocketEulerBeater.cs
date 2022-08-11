@@ -11,11 +11,13 @@ public class WebSocketEulerBeater : MonoBehaviour
     /// <summary>
     /// これ以上上げたらダンベルを持ち上げたと判定する角度(デグリー)。90度で真上
     /// </summary>
+    [Header("これ以上上げたらダンベルを持ち上げたと判定する角度(デグリー)")]
     [SerializeField] float upThreshold;
 
     /// <summary>
     /// これ以上下げたらダンベルを下げたと判定する角度(デグリー)。-90度で真下。
     /// </summary>
+    [Header("これ以上下げたらダンベルを下げたと判定する角度(デグリー)")]
     [SerializeField] float downThreshold;
 
     /// <summary>

@@ -19,21 +19,25 @@ public class AudioSourceController : MonoBehaviour
     /// <summary>
     /// BGMのファイル名。拡張子は無しで日本語は使用しない
     /// </summary>
+    [Header("BGMのファイル名。拡張子は無しで日本語は使用しない")]
     [SerializeField] string mainBGMClipName;
 
     /// <summary>
     /// 拍手のSEのファイル名。拡張子は無しで日本語は使用しない
     /// </summary>
+    [Header("拍手のSEのファイル名。拡張子は無しで日本語は使用しない")]
     [SerializeField] string clappingSEName;
 
     /// <summary>
     /// 体験時間。この時間が経過したらフェードアウトが始まる。
     /// </summary>
+    [Header("体験時間の秒数。この秒数経過したらフェードアウトが始まる")]
     [SerializeField] float playSeconds = 10.0f;
 
     /// <summary>
     /// フェードアウトにかかる時間。この時間立つと音が消失する
     /// </summary>
+    [Header("フェードアウトにかかる秒数。フェードアウトが始まってからこの秒数経過すると音が消失する")]
     [SerializeField] float fadeTime = 1.0f;
 
     private void Start()
@@ -50,8 +54,9 @@ public class AudioSourceController : MonoBehaviour
 
         mainBGMSource.clip = Resources.Load<AudioClip>(mainBGMClipName);
         mainBGMSource.Play();
-        
-        if(clappingSource != null){
+
+        if (clappingSource != null)
+        {
             clappingSource.clip = Resources.Load<AudioClip>(clappingSEName);
         }
 
@@ -70,18 +75,21 @@ public class AudioSourceController : MonoBehaviour
     /// <summary>
     /// 体験時間だけ待って、その後フェードを始める。
     /// </summary>
-    IEnumerator FadeCoroutine(){
+    IEnumerator FadeCoroutine()
+    {
         yield return new WaitForSeconds(playSeconds);
 
         // ここからフェードが始まる
-        for (float i = 0.0f; i <= fadeTime; i += Time.deltaTime){
+        for (float i = 0.0f; i <= fadeTime; i += Time.deltaTime)
+        {
             mainBGMSource.volume = (fadeTime - i) / fadeTime;
             yield return null;
         }
 
         mainBGMSource.volume = 0.0f;
 
-        if(clappingSource != null){
+        if (clappingSource != null)
+        {
             clappingSource.Play();
         }
     }

@@ -18,6 +18,7 @@ public class WebSocketReceiver : MonoBehaviour
     /// <summary>
     /// WebSocketサーバのURL
     /// </summary>
+    [Header("websocketサーバのURL。wss://から始める事")]
     [SerializeField] string url;
 
     /// <summary>
