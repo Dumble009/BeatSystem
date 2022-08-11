@@ -66,7 +66,7 @@ public class WebSocketReceiver : MonoBehaviour
             await ws.SendAsync(bytes, WebSocketMessageType.Text, true, System.Threading.CancellationToken.None);
 
             var buffer = new byte[1024];
-            while (true)
+            while (!isAlreadyClosed)
             {
                 for (int i = 0; i < 1024; i++)
                 {
