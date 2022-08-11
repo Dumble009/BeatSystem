@@ -16,6 +16,15 @@ public class AudioSourceController : MonoBehaviour
     /// </summary>
     [SerializeField] AudioSource clappingSource;
 
+    /// <summary>
+    /// BGMのファイル名。拡張子は無しで日本語は使用しない
+    /// </summary>
+    [SerializeField] string mainBGMClipName;
+
+    /// <summary>
+    /// 拍手のSEのファイル名。拡張子は無しで日本語は使用しない
+    /// </summary>
+    [SerializeField] string clappingSEName;
 
     /// <summary>
     /// 体験時間。この時間が経過したらフェードアウトが始まる。
@@ -37,6 +46,13 @@ public class AudioSourceController : MonoBehaviour
         else
         {
             Debug.LogError("There isn't MusicPase Component.");
+        }
+
+        mainBGMSource.clip = Resources.Load<AudioClip>(mainBGMClipName);
+        mainBGMSource.Play();
+        
+        if(clappingSource != null){
+            clappingSource.clip = Resources.Load<AudioClip>(clappingSEName);
         }
 
         StartCoroutine(FadeCoroutine());
