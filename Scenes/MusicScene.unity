@@ -1375,7 +1375,7 @@ MonoBehaviour:
   threshold: 0.08
   tempoChangeSpeed: 10
   windowSize: 1
-  originalTempo: 0.6
+  originalTempo: 0.3
 --- !u!4 &1424622539
 Transform:
   m_ObjectHideFlags: 0
