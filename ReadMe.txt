@@ -8,6 +8,13 @@
 　タイミングよくテンポを刻むとジャストタイムカウントが1増える。
 
 
+〈UIUpdater〉
+・『フォルダの位置そのもの』を変更。循環参照を防ぐため。
+　現在はScript/UIControll直下に存在。
+
+（Controlのlは1個な気がする）
+
+
 〈MusicPase.cs〉
 ・originalTempoの扱いを変更。
 　Unityから操作できる値をoriginalBPMとして定義し、originalTempoはAwake()時にoriginalBPMから算出する。
