@@ -21,7 +21,7 @@
 ・originalBPMを138に変更。
 　BGM自体を変えた。みんなも好きな曲にしよう。
 ※BGMを入れるときはBGMのリバーブ版も用意すること。
-・Thresholdを0.08→0.2に変更。
+・Thresholdを0.08→0.3に変更。
 ・delegate（≒イベントリスナー）のonJustTimingを実装。
 　タイミングよくテンポを刻むと発動する。
 ・OnBeatにOnJustTiming()を追加。
@@ -40,7 +40,7 @@
 
 
 〈OSCQuaternionBeater〉
-・テストの簡単化の為Up ThresholdとDown Thresholdを変更。
+・テストの簡単化の為、Up ThresholdとDown Thresholdが変更されている場合がある。
 　これは好み。変更はUnity Editorから行う。
 
 
