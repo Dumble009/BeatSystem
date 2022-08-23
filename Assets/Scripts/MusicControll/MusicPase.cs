@@ -41,7 +41,7 @@ public class MusicPase : MonoBehaviour
     /// BGMの本来のテンポ。拍と拍の間の秒数を入れる。(BPM 60であれば1, BPM 120であれば0.5)
     /// </summary>
     [Header("BGMのBPM 「BPMカウンター」「BPMタップテンポはかるくん」で調べて入力する。")]
-    [SerializeField] float originalBPM = 138f;
+    [SerializeField] float originalBPM = 50f;
 
     /// <summary>
     /// BGMの本来のテンポ。拍と拍の間の秒数が入る。(BPM 60であれば1, BPM 120であれば0.5)
@@ -203,7 +203,7 @@ public class MusicPase : MonoBehaviour
     /// <returns>必要に応じて丸められたval</returns>
     private float RoundByThreshold(float val, float target)
     {
-        if (Mathf.Abs(target - val) <= threshold)
+        if (Mathf.Abs(1/target - 1/val) <= threshold)
         {
             return target;
         }

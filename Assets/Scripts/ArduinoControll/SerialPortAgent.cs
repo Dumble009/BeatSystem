@@ -49,6 +49,8 @@ public class SerialPortAgent : MonoBehaviour, INeedle
             {
                 Debug.Log($"send, {val} : {f}");
                 serialPort.WriteLF(val.ToString());
+            }else{
+                Debug.Log("Arduino Not Opened");
             }
         }
     }

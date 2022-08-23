@@ -13,9 +13,9 @@ public class AudioSourceController : MonoBehaviour
     [SerializeField] AudioSource mainBGMSource;
 
     /// <summary>
-    /// リバーブの掛かったBGMを鳴らすAudioSource
+    /// BGMをラジオ音源風にするローパスフィルター
     /// </summary>
-    [SerializeField] AudioSource reverbedBGMSource;
+    [SerializeField] AudioLowPassFilter mainBGMLowPassFilter;
 
     /// <summary>
     /// 体験終了後の拍手を鳴らすAudioSource
@@ -37,12 +37,6 @@ public class AudioSourceController : MonoBehaviour
     /// </summary>
     [Header("BGMのファイル名。拡張子は無しで日本語は使用しない")]
     [SerializeField] string mainBGMClipName;
-
-    /// <summary>
-    /// リバーブBGMのファイル名。拡張子は無しで日本語は使用しない
-    /// </summary>
-    [Header("リバーブBGMのファイル名。拡張子は無しで日本語は使用しない")]
-    [SerializeField] string reverbedBGMClipName;
 
     /// <summary>
     /// 拍手のSEのファイル名。拡張子は無しで日本語は使用しない
@@ -79,7 +73,6 @@ public class AudioSourceController : MonoBehaviour
     bool isFading = false;
 
 
-
     private void Start()
     {
         var m = FindObjectOfType<MusicPase>();
@@ -94,11 +87,7 @@ public class AudioSourceController : MonoBehaviour
         }
 
         mainBGMSource.clip = Resources.Load<AudioClip>(mainBGMClipName); 
-        reverbedBGMSource.clip = Resources.Load<AudioClip>(reverbedBGMClipName);
-        reverbedBGMSource.volume = 0.0f;
-
         mainBGMSource.Play();
-        reverbedBGMSource.Play();
 
         if (clappingSource != null)
         {
@@ -137,13 +126,11 @@ public class AudioSourceController : MonoBehaviour
         //強引にリバーブしているように聞こえさせる
         if(normalizedTempo < 1)
         {
-            mainBGMSource.volume = (float) Math.Max(0.0, (normalizedTempo - 0.6) / (1 - 0.6) );
-            reverbedBGMSource.volume = (float) Math.Min(1.0, normalizedTempo / 0.6 );
+            mainBGMLowPassFilter.cutoffFrequency = 1000;
         }
         else
         {
-            mainBGMSource.volume = 1.0f;
-            reverbedBGMSource.volume = 0.0f;
+            mainBGMLowPassFilter.cutoffFrequency = 22000;
         }
         
         if(1 < normalizedTempo)
@@ -168,12 +155,10 @@ public class AudioSourceController : MonoBehaviour
 
         //フェードアウト時に、フェードアウト開始時点の音量を参照する
         float lastVolume = mainBGMSource.volume;
-        float lastReverbedVolume = reverbedBGMSource.volume;
 
         for (float i = 0.0f; i <= fadeTime; i += Time.deltaTime)
         {
             mainBGMSource.volume = lastVolume * (fadeTime - i) / fadeTime;
-            reverbedBGMSource.volume = lastReverbedVolume * (fadeTime - i) / fadeTime;
             yield return null;
         }
 
@@ -187,6 +172,7 @@ public class AudioSourceController : MonoBehaviour
 
     void OnJustTiming()
     {
+        justTimingSoundSource.volume = 0.2f;
         justTimingSoundSource.Play();
     }
 }
