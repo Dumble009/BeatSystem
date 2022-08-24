@@ -47,7 +47,7 @@ public class SerialPortAgent : MonoBehaviour, INeedle
         {
             if (isOpened)
             {
-                Debug.Log($"send, {val} : {f}");
+                //Debug.Log($"send, {val} : {f}");
                 serialPort.WriteLF(val.ToString());
             }else{
                 Debug.Log("Arduino Not Opened");
@@ -65,7 +65,7 @@ public class SerialPortAgent : MonoBehaviour, INeedle
     /// <param name="obj">メッセージオブジェクト</param>
     public void Receive(object obj){
         string message = obj as string;
-        Debug.Log($"send from arduino {message}");
+        //Debug.Log($"send from arduino {message}");
 
         // 送られてきたメッセージがArduino起動時のOpenメッセージだった場合は送信可能フラグを立てる
         if(message == OPEN_MESSAGE){
