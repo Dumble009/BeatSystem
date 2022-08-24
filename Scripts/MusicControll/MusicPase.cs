@@ -7,6 +7,12 @@ using UnityEngine;
 /// </summary>
 /// <param name="normalizedTempo">正規化された現在のテンポ。本来の曲のテンポと一致している場合は1。倍速の場合は2</param>
 public delegate void TempoChangeHandler(float normalizedTempo);
+
+/// <summary>
+/// テンポが正しく刻まれた時に発行するイベント
+/// </summary>
+public delegate void JustTimingHandler();
+
 /// <summary>
 /// テンポに応じてAudioSourceの再生速度を変える
 /// </summary>
@@ -32,10 +38,13 @@ public class MusicPase : MonoBehaviour
     [SerializeField] int windowSize = 3;
 
     /// <summary>
-    /// BGMの本来のテンポ。拍と拍の間の秒数を入れる。(BPM 60であれば1, BPM 120であれば0.5)
+    /// BGMのBPM。「タップテンポはかるくん」などで計測した値を入力する
     /// </summary>
-    [Header("BGM本来のテンポ。拍と拍の間の秒数を入れる。(BPM 120であれば0.5)")]
-    [SerializeField] float originalTempo = 0.6f;
+    [Header("BGMのBPM。「タップテンポはかるくん」などで計測した値を入力する")]
+    [SerializeField] float originalBPM;
+
+
+    float originalTempo;
 
     /// <summary>
     /// 移動平均を計算するために使用する過去の拍動間隔のキュー
@@ -56,12 +65,18 @@ public class MusicPase : MonoBehaviour
     /// テンポ変化時に発行するイベント。テストケースでモッククラスが呼び出せるようにprotectedにしておく
     /// </summary>
     protected TempoChangeHandler onTempoChange;
+    
+    /// <summary>
+    /// テンポが正しく刻まれた時に発行するイベント。
+    /// </summary>
+    JustTimingHandler onJustTiming;
 
     float lastBeatTime = 0.0f;
 
     private void Awake()
     {
         tempoQ = new Queue<float>();
+        originalTempo = (float) 60.0 / originalBPM;
 
         // イベントを空関数で初期化しておき、nullを防ぐ
         onTempoChange = (x) => { };
@@ -85,6 +100,8 @@ public class MusicPase : MonoBehaviour
         //Debug.Log(currentTargetTempo);
         currentTempo = CalculateCurrentTempo(currentTargetTempo);
         onTempoChange(currentTempo);
+
+        if(tempoQ.Count > 0 && currentTempo == 1.0) onJustTiming();
     }
 
     private void OnBeat(BeatPacket packet)
@@ -178,7 +195,7 @@ public class MusicPase : MonoBehaviour
     /// <returns>必要に応じて丸められたval</returns>
     private float RoundByThreshold(float val, float target)
     {
-        if (Mathf.Abs(target - val) <= threshold)
+        if (Mathf.Abs(1/target - 1/val) <= threshold)
         {
             return target;
         }
@@ -222,5 +239,14 @@ public class MusicPase : MonoBehaviour
     public void RegisterOnTempoChange(TempoChangeHandler e)
     {
         onTempoChange += e;
+    }
+
+    /// <summary>
+    /// テンポが正しく刻まれた際のイベントにメッセージを登録する。
+    /// </summary>
+    /// <param name="e">テンポが変化した際に呼び出される処理</param>
+    public void RegisterOnJustTiming(JustTimingHandler e)
+    {
+        onJustTiming += e;
     }
 }

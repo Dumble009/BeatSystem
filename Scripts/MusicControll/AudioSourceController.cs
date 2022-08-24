@@ -12,9 +12,24 @@ public class AudioSourceController : MonoBehaviour
     [SerializeField] AudioSource mainBGMSource;
 
     /// <summary>
+    /// BGMの音質を落とすAudioLowPassFilter
+    /// </summary>
+    [SerializeField] AudioLowPassFilter mainBGMLowPassFilter;
+
+    /// <summary>
+    /// テンポが正しく刻まれた時の効果音を鳴らすAudioSource
+    /// </summary>
+    [SerializeField] AudioSource justTimingSource;
+
+    /// <summary>
     /// 体験終了後の拍手を鳴らすAudioSource
     /// </summary>
     [SerializeField] AudioSource clappingSource;
+
+    /// <summary>
+    /// 体験終了後の拍手を鳴らすAudioSource
+    /// </summary>
+    [SerializeField] AudioSource warningSource;
 
     /// <summary>
     /// BGMのファイル名。拡張子は無しで日本語は使用しない
@@ -23,10 +38,22 @@ public class AudioSourceController : MonoBehaviour
     [SerializeField] string mainBGMClipName;
 
     /// <summary>
+    /// ジャストタイミングSEのファイル名。拡張子は無しで日本語は使用しない
+    /// </summary>
+    [Header("BGMのファイル名。拡張子は無しで日本語は使用しない")]
+    [SerializeField] string justTimingSEName;
+
+    /// <summary>
     /// 拍手のSEのファイル名。拡張子は無しで日本語は使用しない
     /// </summary>
     [Header("拍手のSEのファイル名。拡張子は無しで日本語は使用しない")]
     [SerializeField] string clappingSEName;
+
+    /// <summary>
+    /// 警告音のSEのファイル名。拡張子は無しで日本語は使用しない
+    /// </summary>
+    [Header("拍手のSEのファイル名。拡張子は無しで日本語は使用しない")]
+    [SerializeField] string warningSEName;
 
     /// <summary>
     /// 体験時間。この時間が経過したらフェードアウトが始まる。
@@ -46,6 +73,7 @@ public class AudioSourceController : MonoBehaviour
         if (m != null)
         {
             m.RegisterOnTempoChange(this.OnTempoChange);
+            m.RegisterOnJustTiming(this.OnJustTiming);
         }
         else
         {
@@ -55,9 +83,21 @@ public class AudioSourceController : MonoBehaviour
         mainBGMSource.clip = Resources.Load<AudioClip>(mainBGMClipName);
         mainBGMSource.Play();
 
+
+        if (justTimingSource != null)
+        {
+            justTimingSource.clip = Resources.Load<AudioClip>(justTimingSEName);
+            justTimingSource.volume = 0.2f;
+        }
+
         if (clappingSource != null)
         {
             clappingSource.clip = Resources.Load<AudioClip>(clappingSEName);
+        }
+
+        if (warningSource != null)
+        {
+            warningSource.clip = Resources.Load<AudioClip>(warningSEName);
         }
 
         StartCoroutine(FadeCoroutine());
@@ -69,7 +109,25 @@ public class AudioSourceController : MonoBehaviour
     /// <param name="normalizedTempo">通常のテンポが1、倍速だと2と正規化されたテンポ</param>
     private void OnTempoChange(float normalizedTempo)
     {
-        mainBGMSource.pitch = normalizedTempo;
+        if(normalizedTempo < 1.0){
+
+        }else{
+
+        }
+
+        if(1.0 < normalizedTempo){
+            warningSource.Play();
+        }else{
+            warningSource.Stop();
+        }
+    }
+
+    /// <summary>
+    /// MusicPaseでテンポが正しく刻まれた際に呼び出されるイベント
+    /// </summary>
+    private void OnJustTiming()
+    {
+        justTimingSource.Play();
     }
 
     /// <summary>
