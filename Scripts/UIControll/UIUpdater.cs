@@ -24,6 +24,7 @@ public class UIUpdater : MonoBehaviour
     /// テンポが正しく刻まれた回数
     /// </summary>
     [SerializeField] int justTimingCount;
+
     /// <summary>
     /// 拍動イベントを管理するオブジェクト
     /// </summary>
@@ -52,6 +53,6 @@ public class UIUpdater : MonoBehaviour
     /// </summary>
     void OnJustTiming()
     {
-        justTimingText.text = $"{++justTimingCount}";
+       justTimingText.text = $"{++justTimingCount}";
     }
 }

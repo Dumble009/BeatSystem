@@ -83,7 +83,6 @@ public class AudioSourceController : MonoBehaviour
         mainBGMSource.clip = Resources.Load<AudioClip>(mainBGMClipName);
         mainBGMSource.Play();
 
-
         if (justTimingSource != null)
         {
             justTimingSource.clip = Resources.Load<AudioClip>(justTimingSEName);
@@ -98,6 +97,7 @@ public class AudioSourceController : MonoBehaviour
         if (warningSource != null)
         {
             warningSource.clip = Resources.Load<AudioClip>(warningSEName);
+            warningSource.Play();
         }
 
         StartCoroutine(FadeCoroutine());
@@ -109,16 +109,18 @@ public class AudioSourceController : MonoBehaviour
     /// <param name="normalizedTempo">通常のテンポが1、倍速だと2と正規化されたテンポ</param>
     private void OnTempoChange(float normalizedTempo)
     {
+        Debug.Log(normalizedTempo);
+ 
         if(normalizedTempo < 1.0){
-
+            mainBGMLowPassFilter.cutoffFrequency = 1000;
         }else{
-
+            mainBGMLowPassFilter.cutoffFrequency = 22000;
         }
 
         if(1.0 < normalizedTempo){
-            warningSource.Play();
+            warningSource.volume = 1.0f;
         }else{
-            warningSource.Stop();
+            warningSource.volume = 0.0f;
         }
     }
 

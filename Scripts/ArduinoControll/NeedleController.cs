@@ -30,12 +30,12 @@ public class NeedleController : MonoBehaviour
     /// <summary>
     /// スマホの角度が変化した時に呼び出される関数
     /// </summary>
-    /// <param name="angleY">スマホの角度。真上は90。真下は-90</param>
-    private void OnAngleYChange(float angleY)
+    /// <param name="needleValue">スマホの角度。真上は90。真下は-90</param>
+    private void OnAngleYChange(float needleValue)
     {
         foreach (var n in needle)
         {
-            n.SetValue(angleY);
+            n.SetValue(needleValue);
         }
     }
 }

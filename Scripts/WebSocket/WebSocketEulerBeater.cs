@@ -3,8 +3,8 @@ using UnityEngine;
 /// <summary>
 /// テンポが変化した時に発行するイベント
 /// </summary>
-/// <param name="angleY">スマホの角度。真上は90。真下は-90</param>
-public delegate void AngleYChangeHandler(float angleY);
+/// <param name="angleY">針の角度。最小は0。最大は1</param>
+public delegate void AngleYChangeHandler(float needleValue);
 
 /// <summary>
 /// WebSocket経由で送信されてきた端末のオイラー角を使用して端末の姿勢を推定・拍動の検出を行う。
@@ -62,6 +62,9 @@ public class WebSocketEulerBeater : MonoBehaviour
                 isRising = !isRising;
                 holder.Beat();
             }
+
+            float needleValue = GetNeedleValue(angleY);
+            onAngleYChange(needleValue);
         }
     }
  
@@ -72,5 +75,21 @@ public class WebSocketEulerBeater : MonoBehaviour
     public void RegisterOnAngleYChange(AngleYChangeHandler e)
     {
         onAngleYChange += e;
+    }
+
+     /// <summary>
+    /// OnTempoChangeの引数で渡された現在のテンポを元に針が指示する値を決定する
+    /// </summary>
+    /// <param name="angleY">スマホの角度</param>
+    private float GetNeedleValue(float angleY)
+    {
+        // angleYがdownThresholdならNeedleValueは0
+        // angleYがupThresholdならNeedleValueは1
+        float needleValue = (angleY - downThreshold) / (upThreshold - downThreshold);
+
+        if(needleValue < 0) needleValue = 0;
+        if(1 < needleValue) needleValue = 1;
+
+        return needleValue;
     }
 }

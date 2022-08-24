@@ -100,8 +100,6 @@ public class MusicPase : MonoBehaviour
         //Debug.Log(currentTargetTempo);
         currentTempo = CalculateCurrentTempo(currentTargetTempo);
         onTempoChange(currentTempo);
-
-        if(tempoQ.Count > 0 && currentTempo == 1.0) onJustTiming();
     }
 
     private void OnBeat(BeatPacket packet)
@@ -114,6 +112,8 @@ public class MusicPase : MonoBehaviour
         {
             tempoQ.Dequeue();
         }
+
+        if(tempoQ.Count > 0 && currentTempo == 1.0) onJustTiming();
     }
 
     /// <summary>

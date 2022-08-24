@@ -578,7 +578,6 @@ GameObject:
   - component: {fileID: 520838569}
   - component: {fileID: 520838568}
   - component: {fileID: 520838567}
-  - component: {fileID: 520838571}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -671,23 +670,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &520838571
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 520838566}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a330be8395b49ba4da96002d7b99ccd5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  beatCountText: {fileID: 515035545}
-  tempoText: {fileID: 322296649}
-  justTimingText: {fileID: 0}
-  justTimingCount: 0
-  beatMakerHolder: {fileID: 113330943}
 --- !u!1 &652300456
 GameObject:
   m_ObjectHideFlags: 0
@@ -1005,10 +987,10 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 0f30defca74a5fa4c9871767150ac698, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -1582,7 +1564,7 @@ MonoBehaviour:
   threshold: 0.3
   tempoChangeSpeed: 10
   windowSize: 1
-  originalBPM: 0
+  originalBPM: 110
 --- !u!4 &1424622539
 Transform:
   m_ObjectHideFlags: 0
@@ -2114,6 +2096,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1594016451}
     m_Modifications:
+    - target: {fileID: 8856017164518294724, guid: 94432f0818da17448af52d56bff049d1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.99855477
+      objectReference: {fileID: 0}
+    - target: {fileID: 8856017164518294724, guid: 94432f0818da17448af52d56bff049d1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8856017164518294724, guid: 94432f0818da17448af52d56bff049d1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8856017164518294724, guid: 94432f0818da17448af52d56bff049d1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.0537441
+      objectReference: {fileID: 0}
     - target: {fileID: 8856017164733888393, guid: 94432f0818da17448af52d56bff049d1, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
