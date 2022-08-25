@@ -21,11 +21,11 @@ public class SerialPortAgent : MonoBehaviour, INeedle
     /// <summary>
     /// 針が振れる最低の角度
     /// </summary>
-    [SerializeField] int minAngle = 30;
+    [SerializeField] int minAngle = 45;
     /// <summary>
     /// 針が振れる最大の角度
     /// </summary>
-    [SerializeField] int maxAngle = 150;
+    [SerializeField] int maxAngle = 135;
 
     private void Awake()
     {

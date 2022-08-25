@@ -83,9 +83,9 @@ public class WebSocketEulerBeater : MonoBehaviour
     /// <param name="angleY">スマホの角度</param>
     private float GetNeedleValue(float angleY)
     {
-        // angleYがdownThresholdならNeedleValueは0
-        // angleYがupThresholdならNeedleValueは1
-        float needleValue = (angleY - downThreshold) / (upThreshold - downThreshold);
+        // angleYがdownThresholdならNeedleValueは1
+        // angleYがupThresholdならNeedleValueは0
+        float needleValue = (angleY - upThreshold) / (downThreshold - upThreshold);
 
         if(needleValue < 0) needleValue = 0;
         if(1 < needleValue) needleValue = 1;

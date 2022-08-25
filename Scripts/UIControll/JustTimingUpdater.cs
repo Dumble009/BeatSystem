@@ -15,11 +15,6 @@ public class JustTimingUpdater : MonoBehaviour
     /// </summary>
     [SerializeField] int justTimingCount;
 
-    /// <summary>
-    /// 拍動イベントを管理するオブジェクト
-    /// </summary>
-    [SerializeField] BeatMakerHolder beatMakerHolder;
-
     private void Start()
     {
         var m = FindObjectOfType<MusicPase>();

@@ -86,7 +86,7 @@ public class AudioSourceController : MonoBehaviour
         if (justTimingSource != null)
         {
             justTimingSource.clip = Resources.Load<AudioClip>(justTimingSEName);
-            justTimingSource.volume = 0.2f;
+            justTimingSource.volume = 0.4f;
         }
 
         if (clappingSource != null)

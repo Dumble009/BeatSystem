@@ -1186,6 +1186,7 @@ Transform:
   - {fileID: 458807798}
   - {fileID: 2044342709}
   - {fileID: 52494396}
+  - {fileID: 2048858720}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1319,11 +1320,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4752928955518776548, guid: 9338be6b16534c144a6fcbf3074116c9, type: 3}
       propertyPath: maxAngle
-      value: 120
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4752928955518776548, guid: 9338be6b16534c144a6fcbf3074116c9, type: 3}
       propertyPath: minAngle
-      value: 0
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4752928955518776549, guid: 9338be6b16534c144a6fcbf3074116c9, type: 3}
       propertyPath: m_Name
@@ -1411,7 +1412,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 6975ad07b72056846a233a735636b908, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 98055c6cf81be734a9b57662fa55634c, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -1570,7 +1571,7 @@ MonoBehaviour:
   threshold: 0.3
   tempoChangeSpeed: 10
   windowSize: 1
-  originalBPM: 110
+  originalBPM: 73
 --- !u!4 &1424622539
 Transform:
   m_ObjectHideFlags: 0
@@ -1982,6 +1983,52 @@ Transform:
   m_Father: {fileID: 1060884027}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2048858719
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2048858720}
+  - component: {fileID: 2048858721}
+  m_Layer: 0
+  m_Name: JustTimingUpdater
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2048858720
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2048858719}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1060884027}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2048858721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2048858719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac1e0e7c538259947be9d51b3607ee31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  justTimingText: {fileID: 2101654847}
+  justTimingCount: 0
 --- !u!1 &2083247555
 GameObject:
   m_ObjectHideFlags: 0
@@ -2104,7 +2151,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8856017164518294724, guid: 94432f0818da17448af52d56bff049d1, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.988879
+      value: 0.99855274
       objectReference: {fileID: 0}
     - target: {fileID: 8856017164518294724, guid: 94432f0818da17448af52d56bff049d1, type: 3}
       propertyPath: m_LocalRotation.x
@@ -2116,7 +2163,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8856017164518294724, guid: 94432f0818da17448af52d56bff049d1, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.14872223
+      value: -0.053781494
       objectReference: {fileID: 0}
     - target: {fileID: 8856017164733888393, guid: 94432f0818da17448af52d56bff049d1, type: 3}
       propertyPath: m_Materials.Array.data[0]
