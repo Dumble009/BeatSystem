@@ -85,6 +85,11 @@ public class WebSocketReceiver : MonoBehaviour
                 // サーバにメッセージの送信を要求
                 await ws.SendAsync(bytes, WebSocketMessageType.Text, true, System.Threading.CancellationToken.None);
 
+                if (isAlreadyClosed)
+                {
+                    break;
+                }
+
                 var segment = new ArraySegment<byte>(buffer);
                 var result = await ws.ReceiveAsync(segment, System.Threading.CancellationToken.None);
 
