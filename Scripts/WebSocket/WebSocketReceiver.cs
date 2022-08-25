@@ -27,6 +27,11 @@ public class WebSocketReceiver : MonoBehaviour
     [SerializeField] Text debugText;
 
     /// <summary>
+    /// PC側の負荷が大きくなった場合の状況を再現するために使用する意図的なWebsocketの読み込み遅延。単位は秒
+    /// </summary>
+    [SerializeField] float debugDelay;
+
+    /// <summary>
     /// WebSocket通信の主体となるオブジェクト
     /// </summary>
     ClientWebSocket ws;
@@ -66,6 +71,10 @@ public class WebSocketReceiver : MonoBehaviour
             var bytes = System.Text.Encoding.ASCII.GetBytes(msg);
             await ws.SendAsync(bytes, WebSocketMessageType.Text, true, System.Threading.CancellationToken.None);
 
+            // サーバへスマホからの情報をUnity側に流してくるように要求するためのメッセージ
+            msg = "Require";
+            bytes = System.Text.Encoding.ASCII.GetBytes(msg);
+
             var buffer = new byte[1024];
             while (!isAlreadyClosed)
             {
@@ -73,12 +82,22 @@ public class WebSocketReceiver : MonoBehaviour
                 {
                     buffer[i] = 0;
                 }
+                // サーバにメッセージの送信を要求
+                await ws.SendAsync(bytes, WebSocketMessageType.Text, true, System.Threading.CancellationToken.None);
+
                 var segment = new ArraySegment<byte>(buffer);
                 var result = await ws.ReceiveAsync(segment, System.Threading.CancellationToken.None);
 
                 var receiveMsg = System.Text.Encoding.ASCII.GetString(buffer);
 
                 onMsg(receiveMsg);
+
+                // 意図的に次のReceiveまでに遅延を加える
+                float lastReadTime = Time.realtimeSinceStartup;
+                while (Time.realtimeSinceStartup - lastReadTime < debugDelay)
+                {
+
+                }
             }
         }
     }
