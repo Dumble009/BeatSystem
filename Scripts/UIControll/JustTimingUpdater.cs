@@ -15,6 +15,11 @@ public class JustTimingUpdater : MonoBehaviour
     /// </summary>
     [SerializeField] int justTimingCount;
 
+    /// <summary>
+    /// テンポが正しく刻まれた回数
+    /// </summary>
+    [SerializeField] Text RankText;
+
     private void Start()
     {
         var m = FindObjectOfType<MusicPase>();
@@ -26,6 +31,16 @@ public class JustTimingUpdater : MonoBehaviour
     /// </summary>
     void OnJustTiming()
     {
-       justTimingText.text = $"{++justTimingCount}";
+        justTimingText.text = $"{++justTimingCount}";
+
+        string rank = "";
+        if(1 <= justTimingCount) rank = "Good!";
+        if(5 <= justTimingCount) rank = "Great!";
+        if(10 <= justTimingCount) rank = "Super!";
+        if(20 <= justTimingCount) rank = "Excellent!";
+        if(30 <= justTimingCount) rank = "Perfect!";
+        if(40 <= justTimingCount) rank = "Master!";
+        if(50 <= justTimingCount) rank = "Are you kidding!?!?";
+        RankText.text = rank;
     }
 }

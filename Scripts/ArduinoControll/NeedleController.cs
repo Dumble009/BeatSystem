@@ -33,6 +33,7 @@ public class NeedleController : MonoBehaviour
     /// <param name="needleValue">スマホの角度。真上は90。真下は-90</param>
     private void OnAngleYChange(float needleValue)
     {
+        //Debug.Log(needleValue);
         foreach (var n in needle)
         {
             n.SetValue(needleValue);
