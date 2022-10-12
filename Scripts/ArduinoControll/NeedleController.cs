@@ -36,6 +36,7 @@ public class NeedleController : MonoBehaviour
         //Debug.Log(needleValue);
         foreach (var n in needle)
         {
+            //Debug.Log($"needlevalue = {needleValue}");
             n.SetValue(needleValue);
         }
     }

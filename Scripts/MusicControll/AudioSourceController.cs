@@ -109,10 +109,10 @@ public class AudioSourceController : MonoBehaviour
     /// <param name="normalizedTempo">通常のテンポが1、倍速だと2と正規化されたテンポ</param>
     private void OnTempoChange(float normalizedTempo)
     {
-        Debug.Log(normalizedTempo);
+        //Debug.Log(normalizedTempo);
  
         if(normalizedTempo < 1.0){
-            mainBGMLowPassFilter.cutoffFrequency = 1000;
+            mainBGMLowPassFilter.cutoffFrequency = 500;
         }else{
             mainBGMLowPassFilter.cutoffFrequency = 22000;
         }

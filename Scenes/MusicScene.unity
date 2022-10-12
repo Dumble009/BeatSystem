@@ -447,6 +447,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
   m_HorizontalAxis: Horizontal
   m_VerticalAxis: Vertical
   m_SubmitButton: Submit
@@ -698,7 +699,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 87775b4631560b943a48dcab87a76795, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.29
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -2233,7 +2234,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8856017164518294724, guid: 94432f0818da17448af52d56bff049d1, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.95166135
+      value: 0.7933533
       objectReference: {fileID: 0}
     - target: {fileID: 8856017164518294724, guid: 94432f0818da17448af52d56bff049d1, type: 3}
       propertyPath: m_LocalRotation.x
@@ -2245,12 +2246,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8856017164518294724, guid: 94432f0818da17448af52d56bff049d1, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.30714926
+      value: -0.6087614
       objectReference: {fileID: 0}
     - target: {fileID: 8856017164733888393, guid: 94432f0818da17448af52d56bff049d1, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 17d8ea393976b034bb6b6c4b3d101bb0, type: 2}
+    - target: {fileID: 8856017164733888398, guid: 94432f0818da17448af52d56bff049d1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8856017165912668276, guid: 94432f0818da17448af52d56bff049d1, type: 3}
       propertyPath: m_Name
       value: VirtualNeedle
