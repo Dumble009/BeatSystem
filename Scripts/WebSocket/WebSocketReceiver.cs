@@ -2,6 +2,8 @@ using System;
 using System.Net.WebSockets;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Threading;
+using System.Threading.Tasks;
 
 /// <summary>
 /// WebSocketのメッセージを受信した際に発行されるイベント
@@ -43,8 +45,14 @@ public class WebSocketReceiver : MonoBehaviour
     /// </summary>
     bool isAlreadyClosed = false;
 
+    /// <summary>
+    /// 最後に受信したメッセージ文字列
+    /// </summary>
+    string lastMsg;
+
     private void Awake()
     {
+        lastMsg = "";
         // 受信メッセージのデバッグ出力。Debug.Logを使用すると重いのでUI.Textを使用する
         onMsg = (x) =>
         {
@@ -54,10 +62,22 @@ public class WebSocketReceiver : MonoBehaviour
             }
         };
 
-        ReceiveLoop();
+        Task.Run(ReceiveLoop);
     }
 
-    async void ReceiveLoop()
+    private void Update()
+    {
+        // lastMsgのlock時間を最小限に抑えるためにtempにコピーしてすぐに開放する
+        string temp = "";
+        lock (lastMsg)
+        {
+            temp = lastMsg;
+        }
+
+        onMsg(temp);
+    }
+
+    async Task ReceiveLoop()
     {
         ws = new ClientWebSocket();
         var uri = new Uri(url);
@@ -85,8 +105,11 @@ public class WebSocketReceiver : MonoBehaviour
                 // サーバにメッセージの送信を要求
                 await ws.SendAsync(bytes, WebSocketMessageType.Text, true, System.Threading.CancellationToken.None);
 
+                Debug.Log("Thread ID : " + System.Threading.Thread.CurrentThread.ManagedThreadId);
+
                 if (isAlreadyClosed)
                 {
+                    Debug.Log("Finish Receive Loop");
                     break;
                 }
 
@@ -95,13 +118,14 @@ public class WebSocketReceiver : MonoBehaviour
 
                 var receiveMsg = System.Text.Encoding.ASCII.GetString(buffer);
 
-                onMsg(receiveMsg);
-
-                // 意図的に次のReceiveまでに遅延を加える
-                float lastReadTime = Time.realtimeSinceStartup;
-                while (Time.realtimeSinceStartup - lastReadTime < debugDelay)
+                lock (lastMsg)
                 {
-
+                    lastMsg = receiveMsg;
+                }
+                // debugDelayが一定以上ならデバッグ用に意図的に次のReceiveまでに遅延を加える
+                if (debugDelay > 0.001f)
+                {
+                    await Task.Delay((int)(debugDelay * 1000));
                 }
             }
         }
