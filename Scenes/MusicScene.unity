@@ -1324,7 +1324,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7267877662481025409, guid: 796b9307f9d51704cab71018aedd476b, type: 3}
       propertyPath: url
-      value: wss://ccb2-49-251-112-64.ap.ngrok.io
+      value: wss://adaoiwudi-1.mydns.jp:5001
       objectReference: {fileID: 0}
     - target: {fileID: 7267877662481025409, guid: 796b9307f9d51704cab71018aedd476b, type: 3}
       propertyPath: debugText
