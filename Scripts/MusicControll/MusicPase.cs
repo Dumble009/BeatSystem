@@ -9,9 +9,9 @@ using UnityEngine;
 public delegate void TempoChangeHandler(float normalizedTempo);
 
 /// <summary>
-/// テンポが正しく刻まれた時に発行するイベント
+/// テンポが刻まれた時に発行するイベント（2種類ある）
 /// </summary>
-public delegate void JustTimingHandler();
+public delegate void TimingHandler();
 
 /// <summary>
 /// テンポに応じてAudioSourceの再生速度を変える
@@ -69,7 +69,12 @@ public class MusicPase : MonoBehaviour
     /// <summary>
     /// テンポが正しく刻まれた時に発行するイベント。
     /// </summary>
-    JustTimingHandler onJustTiming;
+    TimingHandler onJustTiming;
+
+    /// <summary>
+    /// テンポが間違って刻まれた時に発行するイベント。
+    /// </summary>
+    TimingHandler onOutOfTiming;
 
     float lastBeatTime = 0.0f;
 
@@ -80,6 +85,8 @@ public class MusicPase : MonoBehaviour
 
         // イベントを空関数で初期化しておき、nullを防ぐ
         onTempoChange = (x) => { };
+        onJustTiming = () => { };
+        onOutOfTiming = () => { };
     }
 
     private void Start()
@@ -113,7 +120,11 @@ public class MusicPase : MonoBehaviour
             tempoQ.Dequeue();
         }
 
-        if(tempoQ.Count > 0 && currentTempo == 1.0) onJustTiming();
+        if(tempoQ.Count > 0 && currentTempo == 1.0){
+            onJustTiming();
+        } else {
+            onOutOfTiming();
+        }
     }
 
     /// <summary>
@@ -245,8 +256,17 @@ public class MusicPase : MonoBehaviour
     /// テンポが正しく刻まれた際のイベントにメッセージを登録する。
     /// </summary>
     /// <param name="e">テンポが変化した際に呼び出される処理</param>
-    public void RegisterOnJustTiming(JustTimingHandler e)
+    public void RegisterOnJustTiming(TimingHandler e)
     {
         onJustTiming += e;
+    }
+
+    /// <summary>
+    /// テンポが間違って刻まれた際のイベントにメッセージを登録する。
+    /// </summary>
+    /// <param name="e">テンポが変化した際に呼び出される処理</param>
+    public void RegisterOnOutOfTiming(TimingHandler e)
+    {
+        onOutOfTiming += e;
     }
 }

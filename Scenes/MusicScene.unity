@@ -447,7 +447,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SendPointerHoverToParent: 1
   m_HorizontalAxis: Horizontal
   m_VerticalAxis: Vertical
   m_SubmitButton: Submit
@@ -956,7 +955,7 @@ GameObject:
   - component: {fileID: 786111821}
   - component: {fileID: 786111820}
   m_Layer: 5
-  m_Name: Rank
+  m_Name: Combo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1269,6 +1268,7 @@ Transform:
   - {fileID: 2044342709}
   - {fileID: 52494396}
   - {fileID: 2048858720}
+  - {fileID: 1318451742}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1325,7 +1325,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7267877662481025409, guid: 796b9307f9d51704cab71018aedd476b, type: 3}
       propertyPath: url
-      value: wss://ccb2-49-251-112-64.ap.ngrok.io
+      value: wss://dwoshvs-2.mydns.jp:5001
       objectReference: {fileID: 0}
     - target: {fileID: 7267877662481025409, guid: 796b9307f9d51704cab71018aedd476b, type: 3}
       propertyPath: debugText
@@ -1466,6 +1466,54 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9338be6b16534c144a6fcbf3074116c9, type: 3}
+--- !u!1 &1318451741
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1318451742}
+  - component: {fileID: 1318451743}
+  m_Layer: 0
+  m_Name: ScoreUpdater
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1318451742
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1318451741}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1060884027}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1318451743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1318451741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe5b2a8201735ab4e99c9337d6b6f9f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreText: {fileID: 2101654847}
+  score: 0
+  combo: 0
+  comboText: {fileID: 786111820}
 --- !u!1 &1371525373
 GameObject:
   m_ObjectHideFlags: 0
@@ -2081,7 +2129,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2048858720
 Transform:
   m_ObjectHideFlags: 0
@@ -2157,7 +2205,7 @@ GameObject:
   - component: {fileID: 2101654848}
   - component: {fileID: 2101654847}
   m_Layer: 5
-  m_Name: JustTiming
+  m_Name: Score
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2180,7 +2228,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -250}
+  m_AnchoredPosition: {x: 0, y: -220}
   m_SizeDelta: {x: 0, y: 50}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &2101654847
@@ -2234,7 +2282,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8856017164518294724, guid: 94432f0818da17448af52d56bff049d1, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7933533
+      value: 0.9644688
       objectReference: {fileID: 0}
     - target: {fileID: 8856017164518294724, guid: 94432f0818da17448af52d56bff049d1, type: 3}
       propertyPath: m_LocalRotation.x
@@ -2246,7 +2294,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8856017164518294724, guid: 94432f0818da17448af52d56bff049d1, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.6087614
+      value: 0.2641968
       objectReference: {fileID: 0}
     - target: {fileID: 8856017164733888393, guid: 94432f0818da17448af52d56bff049d1, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -2270,7 +2318,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8856017165912668277, guid: 94432f0818da17448af52d56bff049d1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.05
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8856017165912668277, guid: 94432f0818da17448af52d56bff049d1, type: 3}
       propertyPath: m_LocalPosition.z
