@@ -8,24 +8,36 @@ using System;
 public class ScoreUpdater : MonoBehaviour
 {
     /// <summary>
-    /// スコアを示すテキスト
+    /// スコアを表示するUnityのテキスト。
     /// </summary>
     [SerializeField] Text scoreText;
 
     /// <summary>
-    /// スコア
+    /// スコア。正しいタイミングで腕を振ると加算されていく。
     /// </summary>
-    [SerializeField] float score;
+    [SerializeField] int score;
 
     /// <summary>
-    /// コンボ
+    /// 現在続いているコンボ数。正しいタイミングで腕を振ると1ずつ増えていく。
+    /// タイミングを外すと0に戻る。
     /// </summary>
     [SerializeField] int combo;
 
     /// <summary>
-    /// コンボに応じて変動する文章
+    /// コンボを表示するUnityのテキスト。
     /// </summary>
     [SerializeField] Text comboText;
+
+    /// <summary>
+    /// 正しいタイミングで腕を振ったときに獲得する基本スコア。
+    /// </summary>
+    const int BASE_SCORE = 10;
+
+    /// <summary>
+    /// コンボによるスコア倍率のカウンターストップ。
+    /// コンボ数がCOMBO_STOPを超えた場合、それ以上倍率は増えない。
+    /// </summary>
+    const int COMBO_STOP = 20;
 
     private void Start()
     {
@@ -34,23 +46,26 @@ public class ScoreUpdater : MonoBehaviour
         m.RegisterOnOutOfTiming(this.OnOutOfTiming);
     }
 
-
     /// <summary>
     /// スコアが変動する際の関数
     /// </summary>
     void UpdateUI()
     {
-        scoreText.text = $"{Math.Round(score)}";
+        scoreText.text = $"{score}";
 
-        string comboMultiplier = (1 + combo * 0.1f).ToString("F1");
         string combo_text = "";
+        string comboMultiplier = getComboMultiplier().ToString("F1");
+        //コンボ倍率を取得し、小数点以下1桁目までを表示する
+        //（xx.xの形になる）
 
-        if(0 < combo) combo_text = $"{combo} combo\n×{comboMultiplier}";
-        if(20 <= combo){
-            combo_text = "MAX COMBO!!\n×3.0";
+        comboText.text = 0 < combo ? $"{combo} COMBO\n×{comboMultiplier}" : "";
+    }
 
-        }
-        comboText.text = combo_text;
+    /// <summary>
+    /// 今のコンボ数を元に、コンボによるスコア倍率を返す。
+    /// </summary>
+    float getComboMultiplier(){
+        return  combo <= COMBO_STOP ? (1 + combo * 0.1f) : 3.0f;
     }
 
     /// <summary>
@@ -58,10 +73,9 @@ public class ScoreUpdater : MonoBehaviour
     /// </summary>
     void OnJustTiming()
     {
-        score += 10 * (1 + combo * 0.1f);
+        score += (int)(10 * getComboMultiplier());
+        combo++;
         UpdateUI();
-        
-        if(combo < 20) combo++;
     }
 
     /// <summary>
