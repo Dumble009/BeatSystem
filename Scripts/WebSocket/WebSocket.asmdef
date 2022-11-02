@@ -2,7 +2,8 @@
     "name": "WebSocket",
     "rootNamespace": "",
     "references": [
-        "GUID:f10d6d976c9865d4caed2448cfab7e39"
+        "GUID:f10d6d976c9865d4caed2448cfab7e39",
+        "GUID:9839ed7800cb1c74ba5f9e29b3b24611"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

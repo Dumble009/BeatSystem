@@ -8,7 +8,7 @@ public class HijackableEulerBeater : WebSocketEulerBeater
     /// <summary>
     /// 最後にスマホが人に持たれてからの秒数
     /// </summary>
-    protected float timeSinceIPhoneMoved = 5.0f;
+    protected float timeSinceIPhoneMoved = 3.0f;
 
     /// <summary>
     /// 音楽のテンポ。
@@ -21,7 +21,7 @@ public class HijackableEulerBeater : WebSocketEulerBeater
     /// </summary>
     protected void Start()
     {
-        base.Start();
+        receiver.RegisterOnReceiveMessage(OnMsg);
 
         var m = FindObjectOfType<MusicPase>();
         originalTempo = m.OriginalTempo;
@@ -55,7 +55,7 @@ public class HijackableEulerBeater : WebSocketEulerBeater
     /// スマホの角度によって、スマホが動いているかどうかを判断する。
     /// </summary>
     /// <param name="msg">受信文字列</param>
-    protected bool isHijackingNeedle(float angleY)
+    protected bool isIPhoneMoving(float angleY)
     {
         //スマホの角度が上か下に20°より大きければ
         //「最後にスマホが人に持たれてからの時間」を0にする
@@ -68,7 +68,8 @@ public class HijackableEulerBeater : WebSocketEulerBeater
         timeSinceIPhoneMoved += Time.deltaTime;
 
         //スマホが最後に動いてから5秒以内はスマホが動いていると判定
-        return timeSinceIPhoneMoved < 5;
+        Debug.Log($"{angleY}, {timeSinceIPhoneMoved}");
+        return timeSinceIPhoneMoved < 3;
     }
 
     /// <summary>
@@ -79,7 +80,7 @@ public class HijackableEulerBeater : WebSocketEulerBeater
     {
         float amplitude = upThreshold - downThreshold;
         float falseAngleY = (upThreshold + downThreshold) / 2;
-        falseAngleY += amplitude * Mathf.Sin(Time.time / originalTempo * 2 * Mathf.PI);
+        falseAngleY += amplitude * Mathf.Sin(Time.time / originalTempo * Mathf.PI);
 
         return falseAngleY;
     }

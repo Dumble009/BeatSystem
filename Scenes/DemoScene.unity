@@ -1355,6 +1355,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1237806753}
   - component: {fileID: 1237806752}
+  - component: {fileID: 1237806754}
   m_Layer: 0
   m_Name: WebSocketEulerBeater
   m_TagString: Untagged
@@ -1369,7 +1370,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1237806751}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 40e6786fc5ca5fb408d9b1830c0edcae, type: 3}
   m_Name: 
@@ -1393,6 +1394,22 @@ Transform:
   m_Father: {fileID: 762173378}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1237806754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1237806751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19f451b7daab5684680e3b8e2f3cedc3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  receiver: {fileID: 704804720}
+  holder: {fileID: 113330943}
+  upThreshold: 60
+  downThreshold: -50
 --- !u!1001 &1279320150
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1701,7 +1718,7 @@ MonoBehaviour:
   threshold: 0.3
   tempoChangeSpeed: 10
   windowSize: 1
-  originalBPM: 62
+  originalBPM: 63.7
 --- !u!4 &1424622539
 Transform:
   m_ObjectHideFlags: 0
@@ -2308,7 +2325,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8856017164518294724, guid: 94432f0818da17448af52d56bff049d1, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.99779314
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8856017164518294724, guid: 94432f0818da17448af52d56bff049d1, type: 3}
       propertyPath: m_LocalRotation.x
@@ -2320,7 +2337,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8856017164518294724, guid: 94432f0818da17448af52d56bff049d1, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.06639919
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8856017164733888393, guid: 94432f0818da17448af52d56bff049d1, type: 3}
       propertyPath: m_Materials.Array.data[0]
