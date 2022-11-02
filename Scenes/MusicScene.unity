@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -199,6 +199,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51f8f979447c54247bcba0d5441e6081, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _connection: {fileID: 0}
+  _oscAddress: /unity
+  _dataType: 0
+  _event:
+    m_PersistentCalls:
+      m_Calls: []
+  _intEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  _floatEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  _vector2Event:
+    m_PersistentCalls:
+      m_Calls: []
+  _vector3Event:
+    m_PersistentCalls:
+      m_Calls: []
+  _vector4Event:
+    m_PersistentCalls:
+      m_Calls: []
+  _vector2IntEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  _vector3IntEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  _stringEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!4 &90485947
 Transform:
   m_ObjectHideFlags: 0
@@ -1325,7 +1355,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7267877662481025409, guid: 796b9307f9d51704cab71018aedd476b, type: 3}
       propertyPath: url
-      value: wss://dwoshvs-2.mydns.jp:5001
+      value: wss://dwoshvs-2.mydns.jp
       objectReference: {fileID: 0}
     - target: {fileID: 7267877662481025409, guid: 796b9307f9d51704cab71018aedd476b, type: 3}
       propertyPath: debugText
@@ -2282,7 +2312,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8856017164518294724, guid: 94432f0818da17448af52d56bff049d1, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9644688
+      value: 0.99779314
       objectReference: {fileID: 0}
     - target: {fileID: 8856017164518294724, guid: 94432f0818da17448af52d56bff049d1, type: 3}
       propertyPath: m_LocalRotation.x
@@ -2294,7 +2324,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8856017164518294724, guid: 94432f0818da17448af52d56bff049d1, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.2641968
+      value: -0.06639919
       objectReference: {fileID: 0}
     - target: {fileID: 8856017164733888393, guid: 94432f0818da17448af52d56bff049d1, type: 3}
       propertyPath: m_Materials.Array.data[0]
