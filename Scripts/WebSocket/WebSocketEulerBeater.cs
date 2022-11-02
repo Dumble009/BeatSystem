@@ -11,32 +11,35 @@ public delegate void AngleYChangeHandler(float needleValue);
 /// </summary>
 public class WebSocketEulerBeater : MonoBehaviour
 {
-    [SerializeField] WebSocketReceiver receiver;
-    [SerializeField] BeatMakerHolder holder;
+    [SerializeField] protected WebSocketReceiver receiver;
+    [SerializeField] protected BeatMakerHolder holder;
 
     /// <summary>
     /// これ以上上げたらダンベルを持ち上げたと判定する角度(デグリー)。90度で真上
     /// </summary>
     [Header("これ以上上げたらダンベルを持ち上げたと判定する角度(デグリー)")]
-    [SerializeField] float upThreshold;
+    [SerializeField] protected float upThreshold;
 
     /// <summary>
     /// これ以上下げたらダンベルを下げたと判定する角度(デグリー)。-90度で真下。
     /// </summary>
     [Header("これ以上下げたらダンベルを下げたと判定する角度(デグリー)")]
-    [SerializeField] float downThreshold;
+    [SerializeField] protected float downThreshold;
 
     /// <summary>
     /// 今ダンベルを持ち上げようとしているかどうか
     /// </summary>
-    bool isRising = true;
+    protected bool isRising = true;
 
     /// <summary>
     /// スマホの角度の変化時に発行するイベント
     /// </summary>
-    AngleYChangeHandler onAngleYChange;
+    protected AngleYChangeHandler onAngleYChange;
 
-    private void Start()
+    /// <summary>
+    /// 初期化する。
+    /// </summary>
+    protected void Start()
     {
         receiver.RegisterOnReceiveMessage(OnMsg);
     }
@@ -45,29 +48,40 @@ public class WebSocketEulerBeater : MonoBehaviour
     /// WebSocketからメッセージを受信した際に呼ばれるコールバック関数
     /// </summary>
     /// <param name="msg">受信文字列</param>
-    void OnMsg(string msg)
+    protected void OnMsg(string msg)
     {
         // オイラー角はコロン区切りで送られてくる
         string[] vals = msg.Split(':');
 
         // ちょうど3つに区切れなければ不正な値が返ってきている
-        if (vals.Length == 3)
+        if (vals.Length != 3)
         {
-            // 端末の左右がy軸に相当するのでy軸中心のオイラー角が端末が上を向いているか下を向いているかを示している
-            float angleY = float.Parse(vals[1]);
-
-            if (isRising && angleY >= upThreshold ||
-                !isRising && angleY <= downThreshold)
-            {
-                isRising = !isRising;
-                holder.Beat();
-            }
-
-            float needleValue = GetNeedleValue(angleY);
-            onAngleYChange(needleValue);
+            return;
         }
+        float angleY = float.Parse(vals[1]);
+
+        MoveNeedle(angleY);
     }
- 
+
+    /// <summary>
+    /// OnMsgで受けとったスマホの角度から針の角度を計算し、様々な場所へ送る。
+    /// </summary>
+    /// <param name="angleY">スマホの角度</param>
+    public void MoveNeedle(float angleY)
+    {
+        // 端末の左右がy軸に相当するので
+        //y軸中心のオイラー角が端末が上を向いているか下を向いているかを示している
+        if (isRising && angleY >= upThreshold ||
+            !isRising && angleY <= downThreshold)
+        {
+            isRising = !isRising;
+            holder.Beat();
+        }
+
+        float needleValue = GetNeedleValue(angleY);
+        onAngleYChange(needleValue);
+    }
+
     /// <summary>
     /// 角度が変化した際のイベントにメッセージを登録する。
     /// </summary>
@@ -81,14 +95,13 @@ public class WebSocketEulerBeater : MonoBehaviour
     /// OnTempoChangeの引数で渡された現在のテンポを元に針が指示する値を決定する
     /// </summary>
     /// <param name="angleY">スマホの角度</param>
-    private float GetNeedleValue(float angleY)
+    protected float GetNeedleValue(float angleY)
     {
         if(angleY > 90){
             angleY = 180 - angleY;
         }else if(angleY < -90){
             angleY = -180 - angleY;
         }
-
 
         // angleYがdownThresholdならNeedleValueは1
         // angleYがupThresholdならNeedleValueは0
@@ -98,8 +111,6 @@ public class WebSocketEulerBeater : MonoBehaviour
 
         if(needleValue < 0) needleValue = 0;
         if(1 < needleValue) needleValue = 1;
-
-
 
         return needleValue;
     }

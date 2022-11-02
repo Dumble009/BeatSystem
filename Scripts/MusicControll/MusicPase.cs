@@ -44,6 +44,9 @@ public class MusicPase : MonoBehaviour
     [SerializeField] float originalBPM;
 
     float originalTempo;
+    public float OriginalTempo{
+        get {return originalTempo;}
+    }
 
     /// <summary>
     /// 移動平均を計算するために使用する過去の拍動間隔のキュー

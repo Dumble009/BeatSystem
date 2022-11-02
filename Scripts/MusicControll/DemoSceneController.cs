@@ -44,14 +44,14 @@ public class DemoSceneController : AudioSourceController {
 
         mainBGMSource.Pause();
 
+        // デリゲートを空関数で初期化しておき、nullを防ぐ
+        onFadeInTutorial = (int imageNum, float fadeTime) => { Debug.Log("Fade in"); };
+        onFadeOutTutorial = (int  imageNum, float fadeTime) => { Debug.Log("Fade Out"); };
+
         //音楽をフェードするコルーチンを止める。
         //フェードのタイミングはTutorialCoroutineから指定する。
         StopCoroutine(fadeCoroutine);
         StartCoroutine(TutorialCoroutine());
-
-        // デリゲートを空関数で初期化しておき、nullを防ぐ
-        onFadeInTutorial = (int imageNum, float fadeTime) => { Debug.Log("Fade in"); };
-        onFadeOutTutorial = (int  imageNum, float fadeTime) => { Debug.Log("Fade Out"); };
     }
 
     /// <summary>
