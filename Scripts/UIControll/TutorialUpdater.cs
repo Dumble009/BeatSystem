@@ -77,7 +77,7 @@ public class TutorialUpdater : MonoBehaviour
     {
         //imageの透明度を時間経過で0に近付ける
         for (float i = 1.0f; i >= 0.0f; i -= Time.deltaTime / fadeTime){
-            image.alpha = i;
+            //image.alpha = i;
             yield return null;
         }
 

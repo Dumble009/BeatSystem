@@ -60,25 +60,13 @@ public class DemoSceneController : AudioSourceController {
     /// </summary>
     protected IEnumerator TutorialCoroutine()
     {
-        Debug.Log("Started Coroutine");
-        
-        yield return new WaitForSeconds(tutorialSeconds / 5.0f);
-
-        Debug.Log("Starting Tutorial");
-
-        for (int imageNum = 1; imageNum < 4; imageNum++)
-        {
-            onFadeInTutorial(imageNum, tutorialSeconds / 20.0f);
-            yield return new WaitForSeconds(tutorialSeconds / 10.0f);
-            onFadeOutTutorial(imageNum, tutorialSeconds / 20.0f);
-        }
-
-        //カバーを消していく。
-        onFadeOutTutorial(0, tutorialSeconds / 5.0f);
+        onFadeOutTutorial(0, 5);
 
         mainBGMSource.Play();
         StartCoroutine(FadeCoroutine());
         StartCoroutine(RestartCoroutine());
+
+        yield return null;
     }
 
     /// <summary>
@@ -86,7 +74,9 @@ public class DemoSceneController : AudioSourceController {
     /// </summary>
     protected IEnumerator RestartCoroutine()
     {
-        yield return new WaitForSeconds(playSeconds + fadeTime * 2 + durationSeconds);
+        yield return new WaitForSeconds(playSeconds + fadeTime * 2);
+        onFadeInTutorial(0, durationSeconds);
+        yield return new WaitForSeconds(durationSeconds);
 
         SceneManager.LoadScene("DemoScene");
     }
