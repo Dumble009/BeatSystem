@@ -49,6 +49,7 @@ public class TutorialUpdater : MonoBehaviour
         //imageの透明度を時間経過で0に近付ける
         for (float i = 0.0f; i <= 1.0f; i += Time.deltaTime / fadeTime){
             image.alpha = i;
+            yield return null;
         }
 
         //Debug.Log($"{image}, {image.alpha}");
@@ -75,11 +76,11 @@ public class TutorialUpdater : MonoBehaviour
     protected IEnumerator FadeOutTutorial(CanvasGroup image, float fadeTime)
     {
         //imageの透明度を時間経過で0に近付ける
-        for (float i = 1.0f; i >= 0.0f; i += Time.deltaTime / fadeTime){
-            //image.alpha = i;
+        for (float i = 1.0f; i >= 0.0f; i -= Time.deltaTime / fadeTime){
+            image.alpha = i;
+            yield return null;
         }
 
-        Debug.Log($"{image}, {image.alpha}");
-        yield return null;
+        //Debug.Log($"{image}, {image.alpha}");
     }
 }
