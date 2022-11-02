@@ -9,65 +9,71 @@ public class AudioSourceController : MonoBehaviour
     /// <summary>
     /// BGMを鳴らすAudioSource
     /// </summary>
-    [SerializeField] AudioSource mainBGMSource;
+    [SerializeField] protected AudioSource mainBGMSource;
 
     /// <summary>
     /// BGMの音質を落とすAudioLowPassFilter
     /// </summary>
-    [SerializeField] AudioLowPassFilter mainBGMLowPassFilter;
+    [SerializeField] protected  AudioLowPassFilter mainBGMLowPassFilter;
 
     /// <summary>
     /// テンポが正しく刻まれた時の効果音を鳴らすAudioSource
     /// </summary>
-    [SerializeField] AudioSource justTimingSource;
+    [SerializeField] protected AudioSource justTimingSource;
 
     /// <summary>
     /// 体験終了後の拍手を鳴らすAudioSource
     /// </summary>
-    [SerializeField] AudioSource clappingSource;
+    [SerializeField] protected AudioSource clappingSource;
 
     /// <summary>
     /// 体験終了後の拍手を鳴らすAudioSource
     /// </summary>
-    [SerializeField] AudioSource warningSource;
+    [SerializeField] protected AudioSource warningSource;
 
     /// <summary>
     /// BGMのファイル名。拡張子は無しで日本語は使用しない
     /// </summary>
     [Header("BGMのファイル名。拡張子は無しで日本語は使用しない")]
-    [SerializeField] string mainBGMClipName;
+    [SerializeField] protected string mainBGMClipName;
 
     /// <summary>
     /// ジャストタイミングSEのファイル名。拡張子は無しで日本語は使用しない
     /// </summary>
     [Header("BGMのファイル名。拡張子は無しで日本語は使用しない")]
-    [SerializeField] string justTimingSEName;
+    [SerializeField] protected string justTimingSEName;
 
     /// <summary>
     /// 拍手のSEのファイル名。拡張子は無しで日本語は使用しない
     /// </summary>
     [Header("拍手のSEのファイル名。拡張子は無しで日本語は使用しない")]
-    [SerializeField] string clappingSEName;
+    [SerializeField] protected string clappingSEName;
 
     /// <summary>
     /// 警告音のSEのファイル名。拡張子は無しで日本語は使用しない
     /// </summary>
     [Header("拍手のSEのファイル名。拡張子は無しで日本語は使用しない")]
-    [SerializeField] string warningSEName;
+    [SerializeField] protected string warningSEName;
 
     /// <summary>
     /// 体験時間。この時間が経過したらフェードアウトが始まる。
     /// </summary>
     [Header("体験時間の秒数。この秒数経過したらフェードアウトが始まる")]
-    [SerializeField] float playSeconds = 10.0f;
+    [SerializeField] protected float playSeconds = 10.0f;
 
     /// <summary>
     /// フェードアウトにかかる時間。この時間立つと音が消失する
     /// </summary>
     [Header("フェードアウトにかかる秒数。フェードアウトが始まってからこの秒数経過すると音が消失する")]
-    [SerializeField] float fadeTime = 1.0f;
+    [SerializeField] protected float fadeTime = 1.0f;
 
-    private void Start()
+    /// <summary>
+    /// フェードアウトを行うコルーチン。
+    /// 派生クラスから一時停止するため、情報を保持しておく。
+    /// </summary>
+    protected IEnumerator fadeCoroutine;
+
+    protected void Start()
     {
         var m = FindObjectOfType<MusicPase>();
         if (m != null)
@@ -97,17 +103,19 @@ public class AudioSourceController : MonoBehaviour
         if (warningSource != null)
         {
             warningSource.clip = Resources.Load<AudioClip>(warningSEName);
+            warningSource.volume = 0.0f;
             warningSource.Play();
         }
 
-        StartCoroutine(FadeCoroutine());
+        fadeCoroutine = FadeCoroutine();
+        StartCoroutine(fadeCoroutine);
     }
 
     /// <summary>
     /// MusicPaseでテンポの変化が起こった際に呼び出されるイベント
     /// </summary>
     /// <param name="normalizedTempo">通常のテンポが1、倍速だと2と正規化されたテンポ</param>
-    private void OnTempoChange(float normalizedTempo)
+    protected void OnTempoChange(float normalizedTempo)
     {
         //Debug.Log(normalizedTempo);
  
@@ -127,7 +135,7 @@ public class AudioSourceController : MonoBehaviour
     /// <summary>
     /// MusicPaseでテンポが正しく刻まれた際に呼び出されるイベント
     /// </summary>
-    private void OnJustTiming()
+    protected void OnJustTiming()
     {
         justTimingSource.Play();
     }
@@ -135,7 +143,7 @@ public class AudioSourceController : MonoBehaviour
     /// <summary>
     /// 体験時間だけ待って、その後フェードを始める。
     /// </summary>
-    IEnumerator FadeCoroutine()
+    protected IEnumerator FadeCoroutine()
     {
         yield return new WaitForSeconds(playSeconds);
 
@@ -151,6 +159,12 @@ public class AudioSourceController : MonoBehaviour
         if (clappingSource != null)
         {
             clappingSource.Play();
+            // ここからフェードが始まる
+            for (float i = 0.0f; i <= fadeTime; i += Time.deltaTime)
+            {
+                clappingSource.volume = (fadeTime - i) / fadeTime;
+                yield return null;
+            }
         }
     }
 }

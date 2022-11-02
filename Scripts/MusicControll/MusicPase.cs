@@ -43,7 +43,6 @@ public class MusicPase : MonoBehaviour
     [Header("BGMのBPM。「タップテンポはかるくん」などで計測した値を入力する")]
     [SerializeField] float originalBPM;
 
-
     float originalTempo;
 
     /// <summary>
@@ -69,12 +68,12 @@ public class MusicPase : MonoBehaviour
     /// <summary>
     /// テンポが正しく刻まれた時に発行するイベント。
     /// </summary>
-    TimingHandler onJustTiming;
+    protected TimingHandler onJustTiming;
 
     /// <summary>
     /// テンポが間違って刻まれた時に発行するイベント。
     /// </summary>
-    TimingHandler onOutOfTiming;
+    protected TimingHandler onOutOfTiming;
 
     float lastBeatTime = 0.0f;
 
