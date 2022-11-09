@@ -13,6 +13,13 @@ public delegate void fadeTutorial(int imageNum, float fadeTime);
 public class DemoSceneController : AudioSourceController {
 
     /// <summary>
+    /// この回数デモの中でポイントが入ったら本番が始まる。
+    /// </summary>
+    [Header("この回数デモの中でポイントが入ったら本番が始まる。")]
+    [SerializeField] protected int untilMainPhase;
+    protected int initialUntilMainPhase;
+
+    /// <summary>
     /// チュートリアルの秒数。
     /// この秒数が経過したら、デモが始まる
     /// </summary>
@@ -25,6 +32,8 @@ public class DemoSceneController : AudioSourceController {
     /// </summary>
     [Header("デモ終了後、この秒数が経過したら再びデモが始まる")]
     [SerializeField] protected float durationSeconds;
+
+    [SerializeField] protected HijackableEulerBeater hijackableEulerBeater;
 
     /// <summary>
     /// チュートリアル画像がフェードインするときに発行されるイベント。
@@ -41,6 +50,18 @@ public class DemoSceneController : AudioSourceController {
     /// </summary>
     protected new void Start(){
         base.Start();
+
+        initialUntilMainPhase = untilMainPhase;
+
+        var m = FindObjectOfType<MusicPase>();
+        if (m != null)
+        {
+            m.RegisterOnJustTiming(this.OnGetScore);
+        }
+        else
+        {
+            Debug.LogError("There isn't MusicPase Component.");
+        }
 
         mainBGMSource.Pause();
 
@@ -65,6 +86,7 @@ public class DemoSceneController : AudioSourceController {
         mainBGMSource.Play();
         StartCoroutine(FadeCoroutine());
         StartCoroutine(RestartCoroutine());
+        StartCoroutine(StartMainPhaseCoroutine());
 
         yield return null;
     }
@@ -79,6 +101,33 @@ public class DemoSceneController : AudioSourceController {
         yield return new WaitForSeconds(durationSeconds);
 
         SceneManager.LoadScene("DemoScene");
+    }
+
+    /// <summary>
+    /// デモが終わるまで待って、すこし経つとまたデモを始める。
+    /// </summary>
+    protected IEnumerator StartMainPhaseCoroutine()
+    {
+        while(untilMainPhase > 0 ){
+            yield return null;
+        }
+
+        Debug.Log("Starting Main Phase");
+        onFadeInTutorial(0, durationSeconds);
+        yield return new WaitForSeconds(durationSeconds);
+        SceneManager.LoadScene("MusicScene");
+    }
+
+    /// <summary>
+    /// ちょうどいいタイミングで腕を振れば、本番までの時間を短める。
+    /// </summary>
+    public void OnGetScore()
+    {
+        if(hijackableEulerBeater.isControlledByHuman){
+            untilMainPhase--;
+        }else{
+            untilMainPhase = initialUntilMainPhase;
+        }
     }
 
     /// <summary>

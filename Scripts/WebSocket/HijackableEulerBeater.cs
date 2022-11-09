@@ -15,7 +15,7 @@ public class HijackableEulerBeater : WebSocketEulerBeater
     /// 単位は拍と拍の感覚の秒数。
     /// </summary>
     protected float originalTempo = 1;
-
+    public bool isControlledByHuman = false;
     /// <summary>
     /// 初期化する。
     /// </summary>
@@ -48,7 +48,8 @@ public class HijackableEulerBeater : WebSocketEulerBeater
 
         //スマホの角度によってスマホが動いているかどうか判断する。
         //動いていなければ、勝手に針を動かす。
-        angleY = isIPhoneMoving(angleY) ? angleY : CalcFalseAngleY();
+        isControlledByHuman = isIPhoneMoving(angleY);
+        angleY = isControlledByHuman ? angleY : CalcFalseAngleY();
         MoveNeedle(angleY);
     }
 

@@ -1394,6 +1394,7 @@ MonoBehaviour:
   holder: {fileID: 113330943}
   upThreshold: 60
   downThreshold: -50
+  isControlledByHuman: 0
 --- !u!1001 &1279320150
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2013,8 +2014,10 @@ MonoBehaviour:
   warningSEName: warning
   playSeconds: 41
   fadeTime: 5
+  untilMainPhase: 5
   tutorialSeconds: 0
   durationSeconds: 3
+  hijackableEulerBeater: {fileID: 1237806754}
 --- !u!1 &1943205740
 GameObject:
   m_ObjectHideFlags: 0
