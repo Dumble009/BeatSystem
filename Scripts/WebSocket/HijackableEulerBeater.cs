@@ -22,6 +22,7 @@ public class HijackableEulerBeater : WebSocketEulerBeater
     protected void Start()
     {
         receiver.RegisterOnReceiveMessage(OnMsg);
+        onAngleYChange += (x) => {};
 
         var m = FindObjectOfType<MusicPase>();
         originalTempo = m.OriginalTempo;

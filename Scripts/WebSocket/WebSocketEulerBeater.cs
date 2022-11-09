@@ -42,6 +42,7 @@ public class WebSocketEulerBeater : MonoBehaviour
     protected void Start()
     {
         receiver.RegisterOnReceiveMessage(OnMsg);
+        onAngleYChange += (x) => {};
     }
 
     /// <summary>
