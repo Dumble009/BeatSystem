@@ -70,7 +70,9 @@ public class WebSocketEulerBeater : MonoBehaviour
     /// <param name="angleY">スマホの角度</param>
     public void MoveNeedle(float angleY)
     {
-        // 端末の左右がy軸に相当するので
+        Debug.Log($"Euler Beater: {angleY}");
+
+        //端末の左右がy軸に相当するので
         //y軸中心のオイラー角が端末が上を向いているか下を向いているかを示している
         if (isRising && angleY >= upThreshold ||
             !isRising && angleY <= downThreshold)
