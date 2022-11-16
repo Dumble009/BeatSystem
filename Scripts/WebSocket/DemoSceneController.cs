@@ -104,7 +104,7 @@ public class DemoSceneController : AudioSourceController {
     }
 
     /// <summary>
-    /// デモが終わるまで待って、すこし経つとまたデモを始める。
+    /// 5回振ったらデモが終わる。
     /// </summary>
     protected IEnumerator StartMainPhaseCoroutine()
     {
@@ -114,7 +114,7 @@ public class DemoSceneController : AudioSourceController {
 
         Debug.Log("Starting Main Phase");
         onFadeInTutorial(0, durationSeconds);
-        yield return new WaitForSeconds(durationSeconds);
+        //yield return new WaitForSeconds(durationSeconds);
         SceneManager.LoadScene("MusicScene");
     }
 
