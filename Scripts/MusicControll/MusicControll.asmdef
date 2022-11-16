@@ -2,7 +2,8 @@
     "name": "MusicControll",
     "rootNamespace": "",
     "references": [
-        "GUID:f10d6d976c9865d4caed2448cfab7e39"
+        "GUID:f10d6d976c9865d4caed2448cfab7e39",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

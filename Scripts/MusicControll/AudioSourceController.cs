@@ -14,7 +14,7 @@ public class AudioSourceController : MonoBehaviour
     /// <summary>
     /// BGMの音質を落とすAudioLowPassFilter
     /// </summary>
-    [SerializeField] protected  AudioLowPassFilter mainBGMLowPassFilter;
+    [SerializeField] protected AudioLowPassFilter mainBGMLowPassFilter;
 
     /// <summary>
     /// テンポが正しく刻まれた時の効果音を鳴らすAudioSource
@@ -118,16 +118,22 @@ public class AudioSourceController : MonoBehaviour
     protected void OnTempoChange(float normalizedTempo)
     {
         //Debug.Log(normalizedTempo);
- 
-        if(normalizedTempo < 1.0){
+
+        if (normalizedTempo < 1.0)
+        {
             mainBGMLowPassFilter.cutoffFrequency = 500;
-        }else{
+        }
+        else
+        {
             mainBGMLowPassFilter.cutoffFrequency = 22000;
         }
 
-        if(1.0 < normalizedTempo){
+        if (1.0 < normalizedTempo)
+        {
             warningSource.volume = 1.0f;
-        }else{
+        }
+        else
+        {
             warningSource.volume = 0.0f;
         }
     }
