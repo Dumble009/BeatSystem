@@ -103,8 +103,8 @@ public class AudioSourceController : MonoBehaviour
         if (warningSource != null)
         {
             warningSource.clip = Resources.Load<AudioClip>(warningSEName);
-            warningSource.volume = 0.0f;
-            warningSource.Play();
+            //warningSource.volume = 0.0f;
+            //warningSource.Play();
         }
 
         fadeCoroutine = FadeCoroutine();
@@ -130,11 +130,18 @@ public class AudioSourceController : MonoBehaviour
 
         if (1.0 < normalizedTempo)
         {
-            warningSource.volume = 1.0f;
+            //warningSource.volume = 1.0f;
+            if(!warningSource.isPlaying)
+            {
+                warningSource.Play();
+            }
+
+            Debug.LogWarning($"Warning On Play: {normalizedTempo}");
         }
         else
         {
-            warningSource.volume = 0.0f;
+            //warningSource.volume = 0.0f;
+            warningSource.Pause();
         }
     }
 

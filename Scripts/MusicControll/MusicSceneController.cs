@@ -9,7 +9,6 @@ using TMPro;
 /// </summary>
 public class MusicSceneController : AudioSourceController {
 
-
     /// <summary>
     /// カウントダウンを行うオブジェクト。
     /// </summary>
@@ -58,6 +57,7 @@ public class MusicSceneController : AudioSourceController {
         }
 
         countDown.gameObject.SetActive(false);
+        warningSource.enabled = true;
 
         mainBGMSource.Play();
         StartCoroutine(FadeCoroutine());
