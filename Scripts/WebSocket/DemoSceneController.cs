@@ -57,6 +57,7 @@ public class DemoSceneController : AudioSourceController {
         if (m != null)
         {
             m.RegisterOnJustTiming(this.OnGetScore);
+            m.RegisterOnOutOfTiming(this.OnOutOfTiming);
         }
         else
         {
@@ -128,6 +129,14 @@ public class DemoSceneController : AudioSourceController {
         }else{
             untilMainPhase = initialUntilMainPhase;
         }
+    }
+
+    /// <summary>
+    /// テンポから外れて拍を打った時に呼ばれるコールバック
+    /// </summary>
+    private void OnOutOfTiming(){
+        // 連続で拍打ちに成功しない場合は、デモを抜けるまでのカウントダウンをやり直す
+        untilMainPhase = initialUntilMainPhase;
     }
 
     /// <summary>
