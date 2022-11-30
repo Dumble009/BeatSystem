@@ -62,7 +62,14 @@ public class ScoreUpdater : MonoBehaviour
     private void Start()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
+        Register2Delegate();
+    }
 
+    /// <summary>
+    /// MusicPaseに自分の関数を登録する。
+    /// </summary>
+    void Register2Delegate()
+    {    
         var m = FindObjectOfType<MusicPase>();
         if(m != null)
         {
@@ -126,7 +133,11 @@ public class ScoreUpdater : MonoBehaviour
     /// </summary>
     void OnSceneLoaded( Scene scene, LoadSceneMode mode )
     {
-        if(scene.name != "ResultScene") ResetScore();    
+        if(scene.name != "ResultScene")
+        {
+            ResetScore();    
+            Register2Delegate();
+        }
         
         scoreText = GameObject.Find("Score").GetComponent<Text>();
         Debug.LogError(scoreText);
