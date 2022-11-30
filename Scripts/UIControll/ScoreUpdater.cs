@@ -64,8 +64,11 @@ public class ScoreUpdater : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
 
         var m = FindObjectOfType<MusicPase>();
-        m.RegisterOnJustTiming(this.OnJustTiming);
-        m.RegisterOnOutOfTiming(this.OnOutOfTiming);
+        if(m != null)
+        {
+            m.RegisterOnJustTiming(this.OnJustTiming);
+            m.RegisterOnOutOfTiming(this.OnOutOfTiming);
+        }
     }
 
     /// <summary>

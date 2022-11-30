@@ -55,6 +55,7 @@ public class ResultSceneController : MonoBehaviour {
     /// </summary>
     protected IEnumerator ResultCoroutine()
     {
+        Debug.Log("Result");
         scoreText.gameObject.SetActive(false);
 
         yield return new WaitForSeconds(0.5f);
