@@ -93,6 +93,11 @@ public class WebSocketReceiver : MonoBehaviour
                 var segment = new ArraySegment<byte>(buffer);
                 var result = await ws.ReceiveAsync(segment, System.Threading.CancellationToken.None);
 
+                if (isAlreadyClosed)
+                {
+                    break;
+                }
+
                 var receiveMsg = System.Text.Encoding.ASCII.GetString(buffer);
 
                 onMsg(receiveMsg);
