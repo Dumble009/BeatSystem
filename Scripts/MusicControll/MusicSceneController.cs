@@ -22,10 +22,10 @@ public class MusicSceneController : AudioSourceController {
     [SerializeField] protected TextMeshProUGUI countDownText;
 
     /// <summary>
-    /// リザルト画面の表示時間。音楽がフェードアウト後、この時間だけリザルトが流れる
+    /// リザルト画面の表示時間。音楽がフェードアウト後、この時間だけリザルトシーンに行く前に猶予が生じる
     /// </summary>
-    [Header("リザルト画面の表示時間。音楽がフェードアウト後、この時間だけリザルトが流れる")]
-    [SerializeField] protected float resultTimeSeconds;
+    [Header("リザルト画面の表示時間。音楽がフェードアウト後、この時間だけリザルトシーンに行く前に猶予が生じる")]
+    [SerializeField] protected float durationForResult;
 
     /// <summary>
     /// デモを始める。
@@ -61,7 +61,7 @@ public class MusicSceneController : AudioSourceController {
 
         mainBGMSource.Play();
         StartCoroutine(FadeCoroutine());
-        StartCoroutine(Return2DemoCoroutine());
+        StartCoroutine(Go2ResultCoroutine());
 
         yield return null;
     }
@@ -69,21 +69,10 @@ public class MusicSceneController : AudioSourceController {
     /// <summary>
     /// デモが終わるまで待って、すこし経つとまたデモを始める。
     /// </summary>
-    protected IEnumerator Return2DemoCoroutine()
+    protected IEnumerator Go2ResultCoroutine()
     {
         yield return new WaitForSeconds(playSeconds + fadeTime);
-        StartCoroutine(ResultCoroutine());
-        yield return new WaitForSeconds(resultTimeSeconds);
-
-        SceneManager.LoadScene("DemoScene");
-    }
-
-    /// <summary>
-    /// リザルトを表示する。
-    /// </summary>
-    protected IEnumerator ResultCoroutine()
-    {
-        //未実装
-        yield return null;
+        yield return new WaitForSeconds(durationForResult);
+        SceneManager.LoadScene("ResultScene");
     }
 }

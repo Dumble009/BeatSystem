@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using System;
 
 /// <summary>
@@ -39,8 +40,29 @@ public class ScoreUpdater : MonoBehaviour
     /// </summary>
     const int COMBO_STOP = 20;
 
+    /// <summary>
+    /// scoreUpdaterのシングルトン。
+    /// scoreUpdaterと名の付くオブジェクトがひとつしか存在しないことを保証する。
+    /// </summary>
+    public static ScoreUpdater scoreUpdater;
+    
+    private void Awake()
+    {
+        if(scoreUpdater == null)
+        {
+            scoreUpdater = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     private void Start()
     {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+
         var m = FindObjectOfType<MusicPase>();
         m.RegisterOnJustTiming(this.OnJustTiming);
         m.RegisterOnOutOfTiming(this.OnOutOfTiming);
@@ -85,5 +107,28 @@ public class ScoreUpdater : MonoBehaviour
     {
         combo = 0;
         UpdateUI();
+    }
+
+    /// <summary>
+    /// スコアをリセットする。
+    /// </summary>
+    void ResetScore()
+    {
+        score = 0;
+        combo = 0; 
+    }
+
+    /// <summary>
+    /// Resultシーン以外が読み込まれた場合、スコアをリセットする。
+    /// </summary>
+    void OnSceneLoaded( Scene scene, LoadSceneMode mode )
+    {
+        if(scene.name != "ResultScene") ResetScore();    
+        
+        scoreText = GameObject.Find("Score").GetComponent<Text>();
+        comboText = GameObject.Find("Combo").GetComponent<Text>();
+        UpdateUI();
+
+        Debug.LogWarning($"Score: {score}");
     }
 }
