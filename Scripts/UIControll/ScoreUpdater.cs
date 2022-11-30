@@ -129,6 +129,8 @@ public class ScoreUpdater : MonoBehaviour
         if(scene.name != "ResultScene") ResetScore();    
         
         scoreText = GameObject.Find("Score").GetComponent<Text>();
+        Debug.LogError(scoreText);
+        
         comboText = GameObject.Find("Combo").GetComponent<Text>();
         UpdateUI();
 

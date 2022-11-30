@@ -261,6 +261,7 @@ public class MusicPase : MonoBehaviour
     public void RegisterOnJustTiming(TimingHandler e)
     {
         onJustTiming += e;
+        Debug.LogError(e);
     }
 
     /// <summary>
